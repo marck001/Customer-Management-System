@@ -1,2 +1,2 @@
 # University-Management-System
-Some kind of University Management System in Java
+Some kind of Customer Management System in Python
