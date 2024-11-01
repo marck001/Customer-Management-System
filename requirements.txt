@@ -1,0 +1,5 @@
+pymongo
+numpy
+Pillow
+ttkbootstrap
+python-dotenv
