@@ -28,4 +28,4 @@ class User:
     @classmethod
     def list_all(cls, collection):
         return [cls(user_data['username'], user_data['email'], user_data['password']) for user_data in collection.find()]
-#comment a
+#comment a v
