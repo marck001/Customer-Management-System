@@ -33,5 +33,3 @@ class User:
         for user_data in cls.collection.find():
             users.append(cls(user_data['username'], user_data['email'], user_data['password']))
         return users
-#comment a
-#hi
