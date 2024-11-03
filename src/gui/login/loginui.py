@@ -90,17 +90,23 @@ class loginUI:
         RegisterUI()
 
     def login_action(self):
+
         username = self.entry_usuario.get()
         password = self.entry_contrasenia.get()
-        
-        # ;v
-        with open("usuarios.txt", "r") as file:
-            for line in file:
-                stored_user, stored_pass = line.strip().split(":")
-                if stored_user == username and stored_pass == password:
-                    print("Inicio de sesión exitoso")
-                    return
-        print("Usuario o contraseña incorrectos")
+
+        if not username or not password:
+            messagebox.showwarning("Por favor ingresa tanto el usuario como la contraseña")
+            return
+
+        user_data = Database.find_user_by_username(username)
+
+        if user_data and user_data.get("password") == password:
+            messagebox.showinfo("Éxito", "Inicio de sesión exitoso")
+            self.mainwindow.destroy()  
+            menuUI() 
+        else:
+            messagebox.showerror("Error", "Usuario o contraseña incorrectos")
+
 
     def run(self, center=False):
         if center:
