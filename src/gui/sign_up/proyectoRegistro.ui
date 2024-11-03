@@ -1,0 +1,166 @@
+<?xml version='1.0' encoding='utf-8'?>
+<interface version="1.4" author="PygubuDesigner 0.39.3">
+  <project>
+    <settings>
+      <setting id="name">main_gui</setting>
+      <setting id="description">main</setting>
+      <setting id="module_name">login</setting>
+      <setting id="template">codescript</setting>
+      <setting id="main_widget">frame</setting>
+      <setting id="main_classname">login</setting>
+      <setting id="main_menu" />
+      <setting id="output_dir" />
+      <setting id="output_dir2" />
+      <setting id="import_tkvariables">False</setting>
+      <setting id="use_ttk_styledefinition_file">False</setting>
+      <setting id="use_i18n">False</setting>
+      <setting id="all_ids_attributes">False</setting>
+      <setting id="generate_code_onsave">False</setting>
+      <setting id="use_window_centering_code">False</setting>
+      <setting id="ttk_style_definition_file" />
+    </settings>
+    <customwidgets />
+  </project>
+  <object class="tk.Tk" id="frame" named="True">
+    <property name="height">700</property>
+    <property name="overrideredirect">false</property>
+    <property name="relief">flat</property>
+    <property name="resizable">both</property>
+    <property name="width">1100</property>
+    <child>
+      <object class="ttk.Label" id="lbl_titulo" named="True">
+        <property name="anchor">e</property>
+        <property name="compound">center</property>
+        <property name="cursor">bogosity</property>
+        <property name="font">{times new roman} 36 {}</property>
+        <property name="justify">center</property>
+        <property name="padding">5</property>
+        <property name="relief">flat</property>
+        <property name="state">normal</property>
+        <property name="text" translatable="yes">Registro
+</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="x">650</property>
+          <property name="y">60</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="lbl_usuario" named="True">
+        <property name="font">{times} 16 {}</property>
+        <property name="text" translatable="yes">Usuario</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="x">480</property>
+          <property name="y">190</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Entry" id="entry_usuario" named="True">
+        <property name="width">60</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="height">40</property>
+          <property name="x">480</property>
+          <property name="y">240</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="lbl_contrasenia" named="True">
+        <property name="font">{times} 16 {}</property>
+        <property name="relief">flat</property>
+        <property name="text" translatable="yes">Contraseña</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="x">480</property>
+          <property name="y">310</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Entry" id="entry_contrasenia" named="True">
+        <property name="width">60</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="height">40</property>
+          <property name="x">480</property>
+          <property name="y">380</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Button" id="btn_Registrarse" named="True">
+        <property name="text" translatable="yes">   Registrarse   </property>
+        <property name="width">25</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="x">630</property>
+          <property name="y">585</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="tk.Canvas" id="canvas4">
+        <property name="background">#4ad5f7</property>
+        <property name="height">1100</property>
+        <property name="width">400</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="label7">
+        <property name="background">#4ad5f7</property>
+        <property name="compound">top</property>
+        <property name="font">{Yu Gothic UI} 14 {}</property>
+        <property name="image">usuario3.png</property>
+        <property name="justify">center</property>
+        <property name="text" translatable="yes">©Derechos reservados </property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="x">20</property>
+          <property name="y">150</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="lbl_correo" named="True">
+        <property name="font">{times} 16 {}</property>
+        <property name="text" translatable="yes">Correo Elecontronico</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="x">480</property>
+          <property name="y">450</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Entry" id="entry_correo" named="True">
+        <property name="width">60</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="height">40</property>
+          <property name="x">480</property>
+          <property name="y">510</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Button" id="btn_irInicio" named="True">
+        <property name="text" translatable="yes">   Ir a Login   </property>
+        <property name="width">25</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="x">630</property>
+          <property name="y">635</property>
+        </layout>
+      </object>
+    </child>
+  </object>
+</interface>

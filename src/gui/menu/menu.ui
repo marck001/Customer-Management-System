@@ -1,0 +1,451 @@
+<?xml version='1.0' encoding='utf-8'?>
+<interface version="1.4" author="PygubuDesigner 0.39.3">
+  <project>
+    <settings>
+      <setting id="name">main_menu</setting>
+      <setting id="description">gui for menu</setting>
+      <setting id="module_name">main_menu</setting>
+      <setting id="template">codescript</setting>
+      <setting id="main_widget">toplevel1</setting>
+      <setting id="main_classname">register_product</setting>
+      <setting id="main_menu" />
+      <setting id="output_dir">toplevels</setting>
+      <setting id="output_dir2" />
+      <setting id="import_tkvariables">False</setting>
+      <setting id="use_ttk_styledefinition_file">True</setting>
+      <setting id="use_i18n">False</setting>
+      <setting id="all_ids_attributes">False</setting>
+      <setting id="generate_code_onsave">True</setting>
+      <setting id="use_window_centering_code">False</setting>
+      <setting id="ttk_style_definition_file" />
+    </settings>
+    <customwidgets />
+  </project>
+  <object class="tk.Tk" id="menu" named="True">
+    <property name="height">900</property>
+    <property name="overrideredirect">false</property>
+    <property name="relief">flat</property>
+    <property name="resizable">horizontally</property>
+    <property name="takefocus">true</property>
+    <property name="title" translatable="yes">menu</property>
+    <property name="width">1200</property>
+    <containerlayout manager="pack">
+      <property name="propagate">false</property>
+    </containerlayout>
+    <child>
+      <object class="tk.Canvas" id="canva1" named="True">
+        <property name="background">#45fcf8</property>
+        <property name="confine">false</property>
+        <property name="cursor">arrow</property>
+        <property name="relief">flat</property>
+        <property name="state">normal</property>
+        <property name="takefocus">false</property>
+        <property name="width">300</property>
+        <layout manager="pack">
+          <property name="anchor">sw</property>
+          <property name="expand">true</property>
+          <property name="fill">y</property>
+          <property name="side">right</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Button" id="btn_menu2" named="True">
+        <property name="command" type="command" cbtype="simple">on_window_products</property>
+        <property name="compound">bottom</property>
+        <property name="cursor">hand2</property>
+        <property name="default">normal</property>
+        <property name="state">normal</property>
+        <property name="takefocus">false</property>
+        <property name="text" translatable="yes">Registrar Producto</property>
+        <bind sequence="&lt;Button&gt;" handler="callback" add="True" />
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="height">50</property>
+          <property name="relx">0.0</property>
+          <property name="rely">0.37</property>
+          <property name="width">300</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Button" id="btn_menu3" named="True">
+        <property name="command" type="command" cbtype="simple">on_window_selling</property>
+        <property name="compound">left</property>
+        <property name="cursor">hand2</property>
+        <property name="default">active</property>
+        <property name="state">normal</property>
+        <property name="style">primary</property>
+        <property name="takefocus">false</property>
+        <property name="text" translatable="yes">Hacer compra</property>
+        <bind sequence="&lt;Button&gt;" handler="callback" add="True" />
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="height">50</property>
+          <property name="relx">0.0</property>
+          <property name="rely">0.44</property>
+          <property name="width">300</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Button" id="btn_menu4" named="True">
+        <property name="command" type="command" cbtype="simple">on_window_sell_products</property>
+        <property name="compound">left</property>
+        <property name="cursor">hand2</property>
+        <property name="default">active</property>
+        <property name="state">normal</property>
+        <property name="takefocus">true</property>
+        <property name="text" translatable="yes">Ver productos Comprados</property>
+        <bind sequence="&lt;Button&gt;" handler="callback" add="True" />
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="height">50</property>
+          <property name="relx">0.0</property>
+          <property name="rely">0.51</property>
+          <property name="width">300</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Button" id="btn_menu5" named="True">
+        <property name="command" type="command" cbtype="simple">on_window_logout</property>
+        <property name="cursor">hand2</property>
+        <property name="default">active</property>
+        <property name="state">normal</property>
+        <property name="style">primary</property>
+        <property name="takefocus">false</property>
+        <property name="text" translatable="yes">Log out</property>
+        <bind sequence="&lt;Button&gt;" handler="callback" add="True" />
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="height">50</property>
+          <property name="relx">0.0</property>
+          <property name="rely">0.58</property>
+          <property name="width">300</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="label2">
+        <property name="compound">none</property>
+        <property name="font">TkDefaultFont</property>
+        <property name="image">user_colored.png</property>
+        <property name="justify">center</property>
+        <property name="text" translatable="yes">User
+</property>
+        <layout manager="place">
+          <property name="x">59</property>
+          <property name="y">40</property>
+        </layout>
+      </object>
+    </child>
+  </object>
+  <object class="tk.Toplevel" id="toplevel1">
+    <property name="background">#ffffff</property>
+    <property name="height">700</property>
+    <property name="highlightbackground">#64ddd1</property>
+    <property name="iconphoto">user_color.png</property>
+    <property name="resizable">both</property>
+    <property name="title" translatable="yes">pruducto_registro</property>
+    <property name="width">700</property>
+    <containerlayout manager="pack">
+      <property name="propagate">false</property>
+    </containerlayout>
+    <child>
+      <object class="tk.Canvas" id="canvas3">
+        <property name="background">#f9f9f9</property>
+        <property name="relief">flat</property>
+        <property name="selectbackground">#c0c0c0</property>
+        <property name="state">normal</property>
+        <layout manager="place">
+          <property name="height">500</property>
+          <property name="width">500</property>
+          <property name="x">100</property>
+          <property name="y">100</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Entry" id="txt_code" named="True">
+        <property name="style">info</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="height">30</property>
+          <property name="width">150</property>
+          <property name="x">350</property>
+          <property name="y">200</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Entry" id="txt_name" named="True">
+        <property name="style">info</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="height">30</property>
+          <property name="width">150</property>
+          <property name="x">350</property>
+          <property name="y">250</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Spinbox" id="spn_stock" named="True">
+        <property name="increment">1</property>
+        <property name="show">•</property>
+        <property name="style">info</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="height">20</property>
+          <property name="rely">0.0</property>
+          <property name="x">350</property>
+          <property name="y">350</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Entry" id="txt_price" named="True">
+        <property name="style">info</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="height">30</property>
+          <property name="width">150</property>
+          <property name="x">350</property>
+          <property name="y">400</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Combobox" id="cbx_category" named="True">
+        <property name="style">info</property>
+        <property name="validate">none</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="height">30</property>
+          <property name="width">150</property>
+          <property name="x">350</property>
+          <property name="y">300</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="lbl_code" named="True">
+        <property name="background">#f9f9f9</property>
+        <property name="compound">bottom</property>
+        <property name="padding">5</property>
+        <property name="text" translatable="yes">Codigo:</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="x">200</property>
+          <property name="y">200</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="lbl_name" named="True">
+        <property name="background">#f9f9f9</property>
+        <property name="compound">bottom</property>
+        <property name="padding">5</property>
+        <property name="text" translatable="yes">Nombre:</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="x">200</property>
+          <property name="y">250</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="lbl_category" named="True">
+        <property name="background">#f9f9f9</property>
+        <property name="compound">bottom</property>
+        <property name="padding">5</property>
+        <property name="text" translatable="yes">Categoria:</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="x">200</property>
+          <property name="y">300</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="lbl_stock" named="True">
+        <property name="background">#f9f9f9</property>
+        <property name="compound">bottom</property>
+        <property name="padding">5</property>
+        <property name="text" translatable="yes">Stock:</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="x">200</property>
+          <property name="y">350</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="lbl_price" named="True">
+        <property name="anchor">n</property>
+        <property name="background">#f9f9f9</property>
+        <property name="compound">bottom</property>
+        <property name="cursor">arrow</property>
+        <property name="padding">5</property>
+        <property name="text" translatable="yes">Precio:</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="x">200</property>
+          <property name="y">400</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="label8">
+        <property name="background">#ffffff</property>
+        <property name="text" translatable="yes">Registro de Producto
+</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="relx">0.0</property>
+          <property name="x">300</property>
+          <property name="y">40</property>
+        </layout>
+      </object>
+    </child>
+  </object>
+  <object class="tk.Toplevel" id="toplevel2">
+    <property name="height">700</property>
+    <property name="width">800</property>
+    <child>
+      <object class="ttk.Treeview" id="tree_view" named="True">
+        <property name="cursor">arrow</property>
+        <property name="selectmode">extended</property>
+        <property name="show">headings</property>
+        <property name="style">primary</property>
+        <property name="takefocus">true</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="height">400</property>
+          <property name="relx">0.16</property>
+          <property name="rely">0.32</property>
+          <property name="width">500</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </layout>
+        <child>
+          <object class="ttk.Treeview.Column" id="col_name" named="True">
+            <property name="column_anchor">w</property>
+            <property name="heading_anchor">w</property>
+            <property name="minwidth">20</property>
+            <property name="stretch">true</property>
+            <property name="text" translatable="yes">Usuario
+</property>
+            <property name="tree_column">false</property>
+            <property name="visible">true</property>
+            <property name="width">100</property>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Treeview.Column" id="col_product" named="True">
+            <property name="column_anchor">w</property>
+            <property name="heading_anchor">w</property>
+            <property name="minwidth">20</property>
+            <property name="stretch">true</property>
+            <property name="text" translatable="yes">Producto
+</property>
+            <property name="tree_column">false</property>
+            <property name="visible">true</property>
+            <property name="width">100</property>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Treeview.Column" id="col_category" named="True">
+            <property name="column_anchor">w</property>
+            <property name="heading_anchor">w</property>
+            <property name="minwidth">20</property>
+            <property name="stretch">true</property>
+            <property name="text" translatable="yes">Categoria
+</property>
+            <property name="tree_column">false</property>
+            <property name="visible">true</property>
+            <property name="width">100</property>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Treeview.Column" id="col_price" named="True">
+            <property name="column_anchor">w</property>
+            <property name="minwidth">20</property>
+            <property name="stretch">true</property>
+            <property name="text" translatable="yes">Precio
+</property>
+            <property name="tree_column">false</property>
+            <property name="visible">true</property>
+            <property name="width">100</property>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="lbl_text" named="True">
+        <property name="compound">top</property>
+        <property name="cursor">based_arrow_down</property>
+        <property name="font">TkDefaultFont</property>
+        <property name="justify">left</property>
+        <property name="relief">flat</property>
+        <property name="state">normal</property>
+        <property name="takefocus">false</property>
+        <property name="text" translatable="yes">Registro ventas realizadas</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="relx">0.38</property>
+          <property name="rely">0.11</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Entry" id="entry6">
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="relx">0.22</property>
+          <property name="rely">0.23</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Button" id="button8">
+        <property name="state">normal</property>
+        <property name="style">Toolbutton</property>
+        <property name="text" translatable="yes">Buscar por Codigo</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="relx">0.45</property>
+          <property name="rely">0.23</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="lbl_tes" named="True">
+        <property name="text" translatable="yes">Codigo Producto
+</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="relx">0.07</property>
+          <property name="rely">0.23</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </layout>
+      </object>
+    </child>
+  </object>
+</interface>
