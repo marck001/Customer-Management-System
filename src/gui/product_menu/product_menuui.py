@@ -2,7 +2,7 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 from pygubu.widgets.combobox import Combobox
-
+from tkcalendar import DateEntry
 
 class product_menuUI:
     def __init__(self, master=None):
@@ -155,7 +155,7 @@ class product_menuUI:
             x=0,
             y=0)
         self.btnVaciar = ttk.Button(self.productMenu, name="btnvaciar")
-        self.img_delete = tk.PhotoImage(file="delete.gif")
+        self.img_delete = tk.PhotoImage(file="src/img/delete.gif")
         self.btnVaciar.configure(image=self.img_delete, text='\n')
         self.btnVaciar.place(
             anchor="nw",
@@ -203,11 +203,11 @@ class product_menuUI:
             x=0,
             y=0)
         self.btnGuardar = ttk.Button(self.productMenu, name="btnguardar")
-        self.img_save = tk.PhotoImage(file="save.gif")
+        self.img_save = tk.PhotoImage(file="src/img/save.gif")
         self.btnGuardar.configure(image=self.img_save, text='button2')
         self.btnGuardar.place(anchor="nw", relx=0.57, rely=0.82, x=0, y=0)
         self.btnBuscar = ttk.Button(self.productMenu, name="btnbuscar")
-        self.img_search = tk.PhotoImage(file="search.gif")
+        self.img_search = tk.PhotoImage(file="src/img/search.gif")
         self.btnBuscar.configure(
             image=self.img_search,
             style="Toolbutton",
@@ -229,7 +229,7 @@ class product_menuUI:
             text='Categoria:\n')
         self.lblCate.place(anchor="nw", relx=0.52, rely=0.15, x=0, y=0)
         self.cbxCategoria = ttk.Combobox(self.productMenu, name="cbxcategoria")
-        self.cbxCategoria.configure(values='A B C D')
+        self.cbxCategoria.configure(values='Ropa Comida Muebles Herramientas')
         self.cbxCategoria.place(
             anchor="nw",
             relx=0.39,
@@ -238,7 +238,7 @@ class product_menuUI:
             x=0,
             y=0)
         self.btnMostra = ttk.Button(self.productMenu, name="btnmostra")
-        self.img_Lista = tk.PhotoImage(file="Lista.gif")
+        self.img_Lista = tk.PhotoImage(file="src/img/Lista.gif")
         self.btnMostra.configure(
             cursor="arrow",
             image=self.img_Lista,
@@ -279,7 +279,7 @@ class product_menuUI:
             width=30,
             x=0,
             y=0)
-        self.cbxFecha = Combobox(self.productMenu, name="cbxfecha")
+        self.cbxFecha = DateEntry(self.productMenu, name="cbxfecha", width=12, background='darkblue', foreground='white', borderwidth=2)
         self.cbxFecha.place(
             anchor="nw",
             relx=0.82,
