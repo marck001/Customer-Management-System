@@ -18,6 +18,3 @@ class Register_product(baseui.Register_productUI):
         pass
 
 
-if __name__ == "__main__":
-    app = Register_product()
-    app.run()

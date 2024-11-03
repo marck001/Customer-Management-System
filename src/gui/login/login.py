@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 import tkinter as tk
 import tkinter.ttk as ttk
+
+'''
 import gui.login.loginui as baseui
 
 
@@ -12,3 +14,5 @@ class login(baseui.loginUI):
 if __name__ == "__main__":
     app = login()
     app.run()
+
+'''
