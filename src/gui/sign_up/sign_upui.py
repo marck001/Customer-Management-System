@@ -1,8 +1,10 @@
 #!/usr/bin/python3
 import tkinter as tk
 import tkinter.ttk as ttk
-
-
+from tkinter import messagebox
+from db.database import Database
+from models.User import User
+from gui.menu.main_menuui import menuUI
 class sign_upUI:
     def __init__(self, master=None):
         # build ui
@@ -42,7 +44,7 @@ class sign_upUI:
             self.frame, name="entry_contrasenia")
         self.entry_contrasenia.configure(width=60)
         self.entry_contrasenia.place(anchor="nw", height=40, x=480, y=380)
-        self.btn_Registrarse = ttk.Button(self.frame, name="btn_registrarse")
+        self.btn_Registrarse = ttk.Button(self.frame, name="btn_registrarse",command=self.register_user)
         self.btn_Registrarse.configure(text='   Registrarse   ', width=25)
         self.btn_Registrarse.place(anchor="nw", x=630, y=585)
         canvas4 = tk.Canvas(self.frame)
@@ -72,6 +74,33 @@ class sign_upUI:
 
         # Main widget
         self.mainwindow = self.frame
+        
+    def register_user(self):
+        username = self.entry_usuario.get()
+        password = self.entry_contrasenia.get()
+        email = self.entry_correo.get()
+        
+        if not username or not password or not email:
+            messagebox.showerror("Error", "Llene los campos de texto.")
+            return
+        
+        try:
+            
+           User.insert(username,password,email)
+           
+           self.mainwindow.destroy()
+           
+           menuUI()
+           
+           messagebox.showinfo("Success", "Usuario registrado correctamente. Iniciando sesion!")
+           
+           
+        except Exception as e:      
+            messagebox.showerror("Error de registro", f"Ocurrio un error: {e}")
+        
+        
+
+            
 
     def run(self):
         self.mainwindow.mainloop()

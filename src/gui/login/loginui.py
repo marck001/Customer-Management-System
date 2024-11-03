@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import tkinter as tk
 import tkinter.ttk as ttk
+from gui.sign_up.sign_upui import sign_upUI as  RegisterUI
 
 
 class loginUI:
@@ -39,14 +40,14 @@ class loginUI:
         self.entry_contrasenia.configure(width=60)
         self.entry_contrasenia.place(anchor="nw", height=40, x=480, y=430)
         self.btn_IniciarSesion = ttk.Button(
-            self.frame, name="btn_iniciarsesion")
+            self.frame, name="btn_iniciarsesion" , command=self.login_action)
         self.btn_IniciarSesion.configure(
             compound="top",
             cursor="arrow",
             text='Iniciar Sesion',
             width=25)
         self.btn_IniciarSesion.place(anchor="nw", x=630, y=525)
-        self.btn_Registrarse = ttk.Button(self.frame, name="btn_registrarse")
+        self.btn_Registrarse = ttk.Button(self.frame, name="btn_registrarse", command=self.open_register_window)
         self.btn_Registrarse.configure(text='   Registrarse   ', width=25)
         self.btn_Registrarse.place(anchor="nw", x=630, y=600)
         canvas4 = tk.Canvas(self.frame)
@@ -84,6 +85,16 @@ class loginUI:
         y = screen_h - y_min
         self.mainwindow.geometry(f"{x_min}x{y_min}+{x // 2}+{y // 2}")
         self.mainwindow.unbind("<Map>", self.center_map)
+        
+    def open_register_window(self):
+        # qui logica para inicio
+        self.mainwindow.destroy()
+        
+        RegisterUI()
+        
+    def login_action(self):
+        # aqui
+        print("Login button clicked")
 
     def run(self, center=False):
         if center:

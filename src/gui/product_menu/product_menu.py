@@ -1,18 +1,14 @@
 #!/usr/bin/python3
 import tkinter as tk
 import tkinter.ttk as ttk
-
-'''
-import gui.login.loginui as baseui
+import product_menuui as baseui
 
 
-class login(baseui.loginUI):
+class product_menu(baseui.product_menuUI):
     def __init__(self, master=None):
         super().__init__(master)
 
 
 if __name__ == "__main__":
-    app = login()
+    app = product_menu()
     app.run()
-
-'''
