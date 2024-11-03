@@ -1,8 +1,7 @@
 #!/usr/bin/python3
 import tkinter as tk
 import tkinter.ttk as ttk
-from gui.sign_up.sign_upui import sign_upUI as  RegisterUI
-
+from gui.sign_up.sign_upui import sign_upUI as RegisterUI
 
 class loginUI:
     def __init__(self, master=None):
@@ -36,11 +35,11 @@ class loginUI:
             text='Contraseña')
         self.lbl_contrasenia.place(anchor="nw", x=480, y=360)
         self.entry_contrasenia = ttk.Entry(
-            self.frame, name="entry_contrasenia")
+            self.frame, name="entry_contrasenia", show="*")
         self.entry_contrasenia.configure(width=60)
         self.entry_contrasenia.place(anchor="nw", height=40, x=480, y=430)
         self.btn_IniciarSesion = ttk.Button(
-            self.frame, name="btn_iniciarsesion" , command=self.login_action)
+            self.frame, name="btn_iniciarsesion", command=self.login_action)
         self.btn_IniciarSesion.configure(
             compound="top",
             cursor="arrow",
@@ -85,16 +84,23 @@ class loginUI:
         y = screen_h - y_min
         self.mainwindow.geometry(f"{x_min}x{y_min}+{x // 2}+{y // 2}")
         self.mainwindow.unbind("<Map>", self.center_map)
-        
+
     def open_register_window(self):
-        # qui logica para inicio
         self.mainwindow.destroy()
-        
         RegisterUI()
-        
+
     def login_action(self):
-        # aqui
-        print("Login button clicked")
+        username = self.entry_usuario.get()
+        password = self.entry_contrasenia.get()
+        
+        # ;v
+        with open("usuarios.txt", "r") as file:
+            for line in file:
+                stored_user, stored_pass = line.strip().split(":")
+                if stored_user == username and stored_pass == password:
+                    print("Inicio de sesión exitoso")
+                    return
+        print("Usuario o contraseña incorrectos")
 
     def run(self, center=False):
         if center:
@@ -104,7 +110,6 @@ class loginUI:
             self.main_h = self.mainwindow.winfo_reqheight()
             self.center_map = self.mainwindow.bind("<Map>", self.center)
         self.mainwindow.mainloop()
-
 
 if __name__ == "__main__":
     app = loginUI()
