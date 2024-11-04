@@ -90,21 +90,23 @@ class MenuUI:
         #self.open_window(RegisterProductUI)
         RegisterProductUI(self.menu)
 
-    def on_window_selling(self):
+    def on_window_selling(self):       
+        from gui.product_menu.product_menuui import product_menuUI
+        #self.open_window(product_menuUI)
+        product_menuUI(self.menu)
+       
+
+    def on_window_sell_products(self):
         from gui.product_selling.product_sellingui import ProductSellingUI
         #self.open_window(ProductSellingUI)
         ProductSellingUI(self.menu)
 
-    def on_window_sell_products(self):
-        from gui.product_menu.product_menuui import product_menuUI
-        #self.open_window(product_menuUI)
-        product_menuUI(self.menu)
-
     def on_window_logout(self):
         from gui.login.loginui import loginUI
-        self.close_current_window()
-        loginUI(self.menu)
+        #self.close_current_window()
         self.menu.destroy()
+        loginUI()
+        
 
     def on_window_dispose(self):
         self.menu.destroy()
