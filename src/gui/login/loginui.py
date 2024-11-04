@@ -2,7 +2,9 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 from gui.sign_up.sign_upui import sign_upUI as RegisterUI
-
+from gui.menu.main_menuui import MenuUI
+from models.User import User
+from tkinter import messagebox
 class loginUI:
     def __init__(self, master=None):
         # build ui
@@ -98,14 +100,15 @@ class loginUI:
             messagebox.showwarning("Por favor ingresa tanto el usuario como la contraseña")
             return
 
-        user_data = Database.find_user_by_username(username)
+        user_data = User.find_user(username,password)
 
-        if user_data and user_data.get("password") == password:
+        if user_data == None:
+            messagebox.showerror("Error", "Usuario o contraseña incorrectos")          
+        else:           
             messagebox.showinfo("Éxito", "Inicio de sesión exitoso")
             self.mainwindow.destroy()  
-            menuUI() 
-        else:
-            messagebox.showerror("Error", "Usuario o contraseña incorrectos")
+            MenuUI() 
+          
 
 
     def run(self, center=False):
@@ -120,3 +123,4 @@ class loginUI:
 if __name__ == "__main__":
     app = loginUI()
     app.run()
+    
