@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 import tkinter as tk
 import ttkbootstrap as ttk
-
-
+from models.Product import Product
+from tkinter import messagebox
 class RegisterProductUI:
     def __init__(self, master=None):
         # Set up the main window using ttkbootstrap theme
@@ -39,6 +39,7 @@ class RegisterProductUI:
         self.txt_price = ttk.Entry(toplevel1, bootstyle="info")
         self.txt_price.place(anchor="nw", height=30, width=150, x=350, y=400)
         self.cbx_category = ttk.Combobox(toplevel1, bootstyle="info")
+        self.cbx_category.configure(values='Ropa Comida Muebles Herramientas')
         self.cbx_category.place(anchor="nw", height=30, width=150, x=350, y=300)
 
         # Labels
@@ -72,13 +73,43 @@ class RegisterProductUI:
         self.mainwindow.mainloop()
 
     def on_btn_register(self):
-        pass  # Functionality for register button
+        code = self.txt_code.get()
+        name = self.txt_name.get()
+        category = self.cbx_category.get()
+        try:
+            price = float(self.txt_price.get())
+            stock = int(self.spn_stock.get())
+                   
+            if not code or not name or not category or not price or not stock:
+              messagebox.showwarning("Advertencia", "Por favor, complete todos los campos antes de registrar.")
+              return
+          
+        except ValueError:
+            messagebox.showerror("Precio y Stock deben ser números")       
+            return
+
+        if Product.find_by_code(code):
+            messagebox.showinfo("El producto ya existe")
+        else:
+            Product.insert(code, name, category, price, stock)
+            messagebox.showinfo("Producto registrado")
 
     def on_btn_delete(self):
-        pass  # Functionality for delete button
+        code = self.txt_code.get()
+        product = Product.find_by_code(code)
+        if product:
+            product.delete()
+            messagebox.showinfo("Producto eliminado")
+            self.on_btn_clear()  
+        else:
+            messagebox.showerror("Producto no encontrado")
 
     def on_btn_clear(self):
-        pass  # Functionality for clear button
+        self.txt_code.delete(0, tk.END)
+        self.txt_name.delete(0, tk.END)
+        self.cbx_category.set("")
+        self.spn_stock.delete(0, tk.END)
+        self.txt_price.delete(0, tk.END)
 
 
 if __name__ == "__main__":
