@@ -4,7 +4,8 @@ import tkinter.ttk as ttk
 from tkinter import messagebox
 from db.database import Database
 from models.User import User
-from gui.menu.main_menuui import menuUI
+from gui.menu.main_menuui import MenuUI
+
 class sign_upUI:
     def __init__(self, master=None):
         # build ui
@@ -68,7 +69,7 @@ class sign_upUI:
         self.entry_correo = ttk.Entry(self.frame, name="entry_correo")
         self.entry_correo.configure(width=60)
         self.entry_correo.place(anchor="nw", height=40, x=480, y=510)
-        self.btn_irInicio = ttk.Button(self.frame, name="btn_irinicio")
+        self.btn_irInicio = ttk.Button(self.frame, name="btn_irinicio", command=self.go_to_login_window)
         self.btn_irInicio.configure(text='   Ir a Login   ', width=25)
         self.btn_irInicio.place(anchor="nw", x=630, y=635)
 
@@ -84,13 +85,10 @@ class sign_upUI:
             messagebox.showerror("Error", "Llene los campos de texto.")
             return
         
-        try:
-            
-           User.insert(username,password,email)
-           
-           self.mainwindow.destroy()
-           
-           menuUI()
+        try:           
+           User.insert(username,email,password)          
+           self.mainwindow.destroy()         
+           MenuUI()
            
            messagebox.showinfo("Success", "Usuario registrado correctamente. Iniciando sesion!")
            
@@ -98,7 +96,11 @@ class sign_upUI:
         except Exception as e:      
             messagebox.showerror("Error de registro", f"Ocurrio un error: {e}")
         
-        
+    def go_to_login_window(self):
+            from gui.login.loginui  import loginUI          
+            self.mainwindow.destroy()   
+            loginUI()
+            
 
             
 

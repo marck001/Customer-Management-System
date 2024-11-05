@@ -17,13 +17,9 @@ class User:
             'email': email,
             'password': password
         })
-        
-        
-
-
     @classmethod
-    def find_by_username(cls,  username):
-        user_data =  cls.collection.find_one({'username': username})
+    def find_user(cls,  username, password):
+        user_data =  cls.collection.find_one({'username': username,'password':password})
         return cls(user_data['username'], user_data['email'], user_data['password']) if user_data else None
 
     def update(self, **kwargs):
