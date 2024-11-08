@@ -367,7 +367,7 @@ class product_menuUI:
             self.txtDisponible.insert(0, "si") 
             #messagebox.showinfo("Producto encontrado", f"Nombre: {product.name}\nCategoría: {product.category}\nPrecio: {product.price}\nStock: {product.stock}")
         else:
-            # Si no se encuentra el producto, muestra un mensaje de error
+           
             messagebox.showerror("Error", "Producto no encontrado.")
 
 
