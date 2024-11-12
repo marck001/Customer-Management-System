@@ -239,7 +239,7 @@ class product_menuUI:
             width=90,
             x=0,
             y=0)
-        self.btnMostra = ttk.Button(self.productMenu, name="btnmostra",command=self.list_by_category)
+        self.btnMostra = ttk.Button(self.productMenu, name="btnmostra",command=self.list_by_category_tbl)
         self.img_Lista = tk.PhotoImage(file="src/img/Lista.gif")
         self.btnMostra.configure(
             cursor="arrow",
@@ -281,14 +281,21 @@ class product_menuUI:
             width=30,
             x=0,
             y=0)
-        self.cbxFecha = DateEntry(self.productMenu, name="cbxfecha", width=12, background='darkblue', foreground='white', borderwidth=2)
+        self.cbxFecha = DateEntry(
+            self.productMenu, 
+            name="cbxfecha", 
+            width=12, 
+            bootstyle="primary",  # Optional style
+            dateformat="%Y-%m-%d"  # Adjust date format as needed
+        )
         self.cbxFecha.place(
             anchor="nw",
             relx=0.82,
             rely=0.04,
             width=110,
             x=0,
-            y=0)
+            y=0
+        )
         self.productMenu.pack_propagate(0)
         
         self.list()
@@ -333,7 +340,7 @@ class product_menuUI:
             pro.price      
         ))
             
-    def list_by_category(self):
+    def list_by_category_tbl(self):
         category = self.cbxCategoria.get()
         products = Product.list_by_category(category)
         self.tablaVentas.delete(*self.tablaVentas.get_children()) 

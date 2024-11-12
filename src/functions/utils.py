@@ -1,9 +1,16 @@
-import hashlib as h
+import bcrypt as by
 
-def hashFunction(password):
+def encode_hash_function(password):
     
-    h.algorithms_available
+    bytes = password.encode('utf-8') 
+    salt = by.gensalt() 
+    hash = by.hashpw(bytes, salt) 
     
-    return password
+    return hash
     
+    
+def decode_hash_funcion(password,hash):
+    userBytes = password.encode('utf-8') 
+    
+    return by.checkpw(userBytes, hash) 
     
