@@ -319,6 +319,7 @@ class product_menuUI:
         category=self.txtCategoria.get()
         price=self.txtPrecio.get()
         date=self.cbxFecha.get_date()
+        print(date)
         if not user_name or not product_name or not category or not price or not date:
             messagebox.showerror("Error", "Llene todos los campos de texto.")
             return
