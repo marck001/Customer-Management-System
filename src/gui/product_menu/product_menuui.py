@@ -239,7 +239,7 @@ class product_menuUI:
             width=90,
             x=0,
             y=0)
-        self.btnMostra = ttk.Button(self.productMenu, name="btnmostra",command=self.list_by_category)
+        self.btnMostra = ttk.Button(self.productMenu, name="btnmostra",command=self.list_by_category_tbl)
         self.img_Lista = tk.PhotoImage(file="src/img/Lista.gif")
         self.btnMostra.configure(
             cursor="arrow",
@@ -281,14 +281,21 @@ class product_menuUI:
             width=30,
             x=0,
             y=0)
-        self.cbxFecha = DateEntry(self.productMenu, name="cbxfecha", width=12, background='darkblue', foreground='white', borderwidth=2)
+        self.cbxFecha = DateEntry(
+            self.productMenu, 
+            name="cbxfecha", 
+            width=12, 
+            bootstyle="primary",  # Optional style
+            dateformat="%Y-%m-%d"  # Adjust date format as needed
+        )
         self.cbxFecha.place(
             anchor="nw",
             relx=0.82,
             rely=0.04,
             width=110,
             x=0,
-            y=0)
+            y=0
+        )
         self.productMenu.pack_propagate(0)
         
         self.list()
@@ -312,6 +319,7 @@ class product_menuUI:
         category=self.txtCategoria.get()
         price=self.txtPrecio.get()
         date=self.cbxFecha.get_date()
+        print(date)
         if not user_name or not product_name or not category or not price or not date:
             messagebox.showerror("Error", "Llene todos los campos de texto.")
             return
@@ -333,7 +341,7 @@ class product_menuUI:
             pro.price      
         ))
             
-    def list_by_category(self):
+    def list_by_category_tbl(self):
         category = self.cbxCategoria.get()
         products = Product.list_by_category(category)
         self.tablaVentas.delete(*self.tablaVentas.get_children()) 
@@ -367,7 +375,7 @@ class product_menuUI:
             self.txtDisponible.insert(0, "si") 
             #messagebox.showinfo("Producto encontrado", f"Nombre: {product.name}\nCategoría: {product.category}\nPrecio: {product.price}\nStock: {product.stock}")
         else:
-            # Si no se encuentra el producto, muestra un mensaje de error
+           
             messagebox.showerror("Error", "Producto no encontrado.")
 
 
