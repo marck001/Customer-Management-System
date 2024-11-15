@@ -5,7 +5,7 @@ from tkinter import messagebox
 from db.database import Database
 from models.User import User
 from gui.menu.main_menuui import MenuUI
-
+import bcrypt
 class sign_upUI:
     def __init__(self, master=None):
         # build ui
@@ -86,15 +86,14 @@ class sign_upUI:
             return
         
         try:           
-           User.insert(username,email,password)          
-           self.mainwindow.destroy()         
-           MenuUI()
-           
-           messagebox.showinfo("Success", "Usuario registrado correctamente. Iniciando sesion!")
-           
-           
+            hashed_password = bcrypt.hashpw(password, bcrypt.gensalt())
+            User.insert(username,email,hashed_password)          
+            self.mainwindow.destroy()         
+            MenuUI()
+            messagebox.showinfo("Success", "Usuario registrado correctamente. Iniciando sesion!")
+            
         except Exception as e:      
-            messagebox.showerror("Error de registro", f"Ocurrio un error: {e}")
+            messagebox.showerror("Error de registro", f"Ocurrio un error: {e}")
         
     def go_to_login_window(self):
             from gui.login.loginui  import loginUI          

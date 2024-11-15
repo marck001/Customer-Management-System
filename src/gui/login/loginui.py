@@ -5,6 +5,7 @@ from gui.sign_up.sign_upui import sign_upUI as RegisterUI
 from gui.menu.main_menuui import MenuUI
 from models.User import User
 from tkinter import messagebox
+import bcrypt
 class loginUI:
     def __init__(self, master=None):
         # build ui
@@ -94,22 +95,25 @@ class loginUI:
     def login_action(self):
 
         username = self.entry_usuario.get()
-        password = self.entry_contrasenia.get()
+        password = self.entry_contrasenia.get().encode('utf-8') 
 
         if not username or not password:
             messagebox.showwarning("Por favor ingresa tanto el usuario como la contraseña")
             return
 
         user_data = User.find_user(username,password)
-
+        
         if user_data == None:
-            messagebox.showerror("Error", "Usuario o contraseña incorrectos")          
-        else:           
+            messagebox.showerror("Error", "Usuario o contraseña incorrectos")      
+        hashed_password = user_data['password']
+        if bcrypt.checkpw(password, hashed_password):
             messagebox.showinfo("Éxito", "Inicio de sesión exitoso")
             self.mainwindow.destroy()  
             MenuUI() 
-          
-
+        else:           
+            messagebox.showinfo("Éxito", "Inicio de sesión exitoso")
+            self.mainwindow.destroy()  
+            MenuUI()
 
     def run(self, center=False):
         if center:
