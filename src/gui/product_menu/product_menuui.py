@@ -239,7 +239,7 @@ class product_menuUI:
             width=90,
             x=0,
             y=0)
-        self.btnMostra = ttk.Button(self.productMenu, name="btnmostra",command=self.list)
+        self.btnMostra = ttk.Button(self.productMenu, name="btnmostra",command=self.list_by_category_tbl)
         self.img_Lista = tk.PhotoImage(file="src/img/Lista.gif")
         self.btnMostra.configure(
             cursor="arrow",
@@ -281,15 +281,24 @@ class product_menuUI:
             width=30,
             x=0,
             y=0)
-        self.cbxFecha = DateEntry(self.productMenu, name="cbxfecha", width=12, background='darkblue', foreground='white', borderwidth=2)
+        self.cbxFecha = DateEntry(
+            self.productMenu, 
+            name="cbxfecha", 
+            width=12, 
+            bootstyle="primary",  # Optional style
+            dateformat="%Y-%m-%d"  # Adjust date format as needed
+        )
         self.cbxFecha.place(
             anchor="nw",
             relx=0.82,
             rely=0.04,
             width=110,
             x=0,
-            y=0)
+            y=0
+        )
         self.productMenu.pack_propagate(0)
+        
+        self.list()
 
         # Main widget
         self.mainwindow = self.productMenu
@@ -302,14 +311,15 @@ class product_menuUI:
         self.txtProducto.delete(0, 'end')  
         self.txtCategoria.delete(0, 'end') 
         self.txtPrecio.delete(0, 'end') 
-        self.cbxFecha.set(self.cbxFecha['values'][0]) 
+        self.cbxFecha.set_date(self.cbxFecha['values'][0]) 
 
     def save(self):
         user_name=self.txtCodigoCliente.get()
         product_name=self.txtProducto.get()
         category=self.txtCategoria.get()
         price=self.txtPrecio.get()
-        date=self.cbxFecha.get()
+        date=self.cbxFecha.get_date()
+        print(date)
         if not user_name or not product_name or not category or not price or not date:
             messagebox.showerror("Error", "Llene todos los campos de texto.")
             return
@@ -320,18 +330,33 @@ class product_menuUI:
             messagebox.showerror("Error de registro", f"Ocurrió un error: {e}")
     
     def list(self):
-        sellings = Selling.list_all() 
+        products = Product.list_all() 
         self.tablaVentas.delete(*self.tablaVentas.get_children()) 
-        for selling in sellings:
+        for pro in products:
             self.tablaVentas.insert("", "end", values=(
-            selling.codigo,       
-            selling.producto,    
-            selling.stock,        
-            selling.categoria,    
-            selling.precio       
+            pro.code,       
+            pro.name,    
+            pro.stock,        
+            pro.category,    
+            pro.price      
         ))
+            
+    def list_by_category_tbl(self):
+        category = self.cbxCategoria.get()
+        products = Product.list_by_category(category)
+        self.tablaVentas.delete(*self.tablaVentas.get_children()) 
+        for pro in products:
+            self.tablaVentas.insert("", "end", values=(
+            pro.code,       
+            pro.name,    
+            pro.stock,        
+            pro.category,    
+            pro.price      
+        ))
+            
+        
     def searchProduct(self):
-        code = self.txtCodigoProducto.get()  
+        code = self.txtCodigo.get()  
         product = Product.find_by_code(code)
         if product:
             self.txtProducto.delete(0, tk.END)  
@@ -342,12 +367,15 @@ class product_menuUI:
 
             self.txtPrecio.delete(0, tk.END) 
             self.txtPrecio.insert(0, product.price)
+            
+            self.txtStock.delete(0, tk.END) 
+            self.txtStock.insert(0, product.stock)
 
-            self.cbxFecha.delete(0, tk.END) 
-            self.cbxFecha.insert(0, product.date) 
-            messagebox.showinfo("Producto encontrado", f"Nombre: {product.name}\nCategoría: {product.category}\nPrecio: {product.price}\nStock: {product.stock}")
+            self.txtDisponible.delete(0, tk.END) 
+            self.txtDisponible.insert(0, "si") 
+            #messagebox.showinfo("Producto encontrado", f"Nombre: {product.name}\nCategoría: {product.category}\nPrecio: {product.price}\nStock: {product.stock}")
         else:
-            # Si no se encuentra el producto, muestra un mensaje de error
+           
             messagebox.showerror("Error", "Producto no encontrado.")
 
 

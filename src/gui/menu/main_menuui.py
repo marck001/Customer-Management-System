@@ -87,8 +87,7 @@ class MenuUI:
         
     def on_window_products(self):
         from gui.register_product.register_productui import RegisterProductUI
-        #self.open_window(RegisterProductUI)
-        RegisterProductUI(self.menu)
+        self.current_window = RegisterProductUI(self.menu)
 
     def on_window_selling(self):
         from gui.product_selling.product_sellingui import ProductSellingUI
