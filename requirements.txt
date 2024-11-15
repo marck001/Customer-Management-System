@@ -3,3 +3,6 @@ numpy
 Pillow
 ttkbootstrap
 python-dotenv
+pygubu
+tkcalendar
+bcrypt
