@@ -88,7 +88,7 @@ class sign_upUI:
         try:           
            User.insert(username,email,password)          
            self.mainwindow.destroy()         
-           MenuUI()
+           MenuUI(user_name=username)
            
            messagebox.showinfo("Success", "Usuario registrado correctamente. Iniciando sesion!")
            
