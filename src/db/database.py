@@ -1,4 +1,6 @@
 from pymongo import MongoClient
+import tkinter as tk
+from tkinter import messagebox
 
 class Database:
     _client = None
@@ -19,6 +21,15 @@ class Database:
             raise Exception("Call `initialize` first.")
         return cls._db
     
+    @classmethod
+    def find_user_by_username(cls, username):
+        if cls._users_collection is None:
+            raise Exception("La base de datos no ha sido inicializada.")
+   
+        user_data = cls._users_collection.find_one({"username": username})
+        return cls(user_data['username'],user_data['email'],user_data['password']if user_data else None)
+
+
     @classmethod
     def close_connection(cls):
         if cls._client:

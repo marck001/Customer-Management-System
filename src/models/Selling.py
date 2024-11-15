@@ -1,6 +1,5 @@
 from pymongo.errors import DuplicateKeyError
 from db.database import Database
-from datetime import datetime
 
 class Selling:
     @staticmethod
@@ -18,7 +17,6 @@ class Selling:
     def insert(user_name, product_name, category, price, date):
         collection = Selling.get_collection()
         try:
-            date = date.strftime("%Y-%m-%d")
             return collection.insert_one({
                 'user_name': user_name,
                 'product_name': product_name,

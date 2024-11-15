@@ -33,12 +33,10 @@ class Product:
         return cls(product_data['code'], product_data['name'],  product_data['category'],product_data['price'], product_data['stock']) if product_data else None
     
 
-    @classmethod
     def update(self, **kwargs):
         update_data = {key: value for key, value in kwargs.items() if hasattr(self, key)}
         return self.collection.update_one({'code': self.code}, {'$set': update_data})
 
-    @classmethod
     def delete(self):
         return self.collection.delete_one({'code': self.code})
 
@@ -48,7 +46,7 @@ class Product:
         for product_data in cls.collection.find():
             products.append(cls(product_data['code'], product_data['name'],  product_data['category'],product_data['price'], product_data['stock']))
         return products
-    @classmethod
+    
     def list_by_category(cls,category):
         products = []
         for product_data in cls.collection.find({'category': category}):
