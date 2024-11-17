@@ -101,28 +101,28 @@ class RegisterProductUI:
             stock = int(self.spn_stock.get())
 
             if not code or not name or not category or not price or not stock:
-                messagebox.showwarning("Advertencia", "Por favor, complete todos los campos antes de registrar.")
+                messagebox.showwarning("Advertencia", "Por favor, complete todos los campos antes de registrar.",parent=self.mainwindow)
                 return
 
         except ValueError:
-            messagebox.showerror("Error", "Precio y Stock deben ser números")
+            messagebox.showerror("Error", "Precio y Stock deben ser números",parent=self.mainwindow)
             return
 
         if Product.find_by_code(code):
-            messagebox.showinfo("Error", "El producto ya existe")
+            messagebox.showinfo("Error", "El producto ya existe",parent=self.mainwindow)
         else:
             Product.insert(code, name, category, price, stock)
-            messagebox.showinfo("Éxito", "Producto registrado")
+            messagebox.showinfo("Éxito", "Producto registrado",parent=self.mainwindow)
 
     def on_btn_delete(self):
         code = self.txt_code.get()
         product = Product.find_by_code(code)
         if product:
             product.delete()
-            messagebox.showinfo("Éxito", "Producto eliminado")
+            messagebox.showinfo("Éxito", "Producto eliminado",parent=self.mainwindow)
             self.on_btn_clear()
         else:
-            messagebox.showerror("Error", "Producto no encontrado")
+            messagebox.showerror("Error", "Producto no encontrado",parent=self.mainwindow)
 
     def on_btn_clear(self):
         self.txt_code.delete(0, tk.END)
