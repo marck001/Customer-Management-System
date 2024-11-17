@@ -5,6 +5,7 @@ from gui.sign_up.sign_upui import sign_upUI as RegisterUI
 from gui.menu.main_menuui import MenuUI
 from models.User import User
 from tkinter import messagebox
+from functions.utils import *
 class loginUI:
     def __init__(self, master=None):
         # build ui
@@ -94,21 +95,18 @@ class loginUI:
     def login_action(self):
 
         username = self.entry_usuario.get()
-        password = self.entry_contrasenia.get()
+        password1 = self.entry_contrasenia.get()
 
-        if not username or not password:
+        if not username or not password1:
             messagebox.showwarning("Por favor ingresa tanto el usuario como la contraseña")
             return
-
-        user_data = User.find_user(username,password)
-
-        if user_data == None:
-            messagebox.showerror("Error", "Usuario o contraseña incorrectos")          
-        else:           
+        user_data = User.find_user(username) 
+        if decode_hash_function(password1, user_data.password):          
             messagebox.showinfo("Éxito", "Inicio de sesión exitoso")
             self.mainwindow.destroy()  
-            MenuUI() 
-          
+            MenuUI(user_name=username) 
+        else:
+            messagebox.showerror("Error", "Usuario o contraseña incorrectos")
 
 
     def run(self, center=False):

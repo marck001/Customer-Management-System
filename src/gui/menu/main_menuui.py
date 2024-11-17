@@ -3,7 +3,7 @@ import tkinter as tk
 import tkinter.ttk as ttk
 
 class MenuUI:  
-    def __init__(self):
+    def __init__(self, user_name):
         # build ui
         self.menu = tk.Tk()
         self.current_window = None 
@@ -38,12 +38,15 @@ class MenuUI:
         self.btn_dispose = self.create_button("Salir", self.on_window_dispose, 0.65)
 
         # User label
-        self.create_user_label()
+        self.create_user_label(username=user_name)
+        user_lbl=ttk.Label(self.menu, text=f'Bienvenido {user_name}', font="{times new roman} 20 {}", background="#ffffff")
+        user_lbl.place(relx=0.8, rely=0.03)
 
         # Additional components
         self.create_additional_components()
 
         self.mainwindow = self.menu
+        
 
     def create_button(self, text, command, rel_y):
         btn = ttk.Button(self.menu, text=text, cursor="hand2")
@@ -51,14 +54,14 @@ class MenuUI:
         btn.configure(command=command)
         return btn
 
-    def create_user_label(self):
+    def create_user_label(self, username):
         label2 = ttk.Label(self.menu)
         self.img_user_colored = tk.PhotoImage(file="src/img/user_colored.png")
         label2.configure(
             compound="center",
             image=self.img_user_colored,
             justify="left",
-            text='User\n'
+            text= username,
         )
         label2.place(x=59, y=40)
 
@@ -88,18 +91,17 @@ class MenuUI:
     def on_window_products(self):
         from gui.register_product.register_productui import RegisterProductUI
         #self.open_window(RegisterProductUI)
-        RegisterProductUI(self.menu)
+        RegisterProductUI(self.mainwindow )
 
     def on_window_selling(self):       
         from gui.product_menu.product_menuui import product_menuUI
         #self.open_window(product_menuUI)
-        product_menuUI(self.menu)
-       
+        product_menuUI(self.mainwindow )
 
     def on_window_sell_products(self):
         from gui.product_selling.product_sellingui import ProductSellingUI
         #self.open_window(ProductSellingUI)
-        ProductSellingUI(self.menu)
+        ProductSellingUI(self.mainwindow )
 
     def on_window_logout(self):
         from gui.login.loginui import loginUI
