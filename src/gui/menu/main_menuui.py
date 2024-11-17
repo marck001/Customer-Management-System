@@ -3,7 +3,8 @@ import tkinter as tk
 import tkinter.ttk as ttk
 
 class MenuUI:  
-    def __init__(self, user_name):
+    
+    def __init__(self,user_name):
         # build ui
         self.menu = tk.Tk()
         self.current_window = None 
@@ -17,6 +18,7 @@ class MenuUI:
         self.menu.overrideredirect(False)
         self.menu.resizable(True, False)
         self.menu.title("Menu")
+        self.user_name = user_name
 
         self.canva1 = tk.Canvas(self.menu, name="canva1")
         self.canva1.configure(
@@ -37,10 +39,11 @@ class MenuUI:
         self.btn_menu5 = self.create_button("Log out", self.on_window_logout, 0.58)
         self.btn_dispose = self.create_button("Salir", self.on_window_dispose, 0.65)
 
+        
         # User label
         self.create_user_label(username=user_name)
-        user_lbl=ttk.Label(self.menu, text=f'Bienvenido {user_name}', font="{times new roman} 20 {}", background="#ffffff")
-        user_lbl.place(relx=0.8, rely=0.03)
+        user_lbl=ttk.Label(self.menu, text=f'Bienvenido! {user_name}', font="{times new roman} 20 {}", background="#ffffff")
+        user_lbl.place(relx=0.7, rely=0.03)
 
         # Additional components
         self.create_additional_components()
@@ -96,12 +99,12 @@ class MenuUI:
     def on_window_selling(self):       
         from gui.product_menu.product_menuui import product_menuUI
         #self.open_window(product_menuUI)
-        product_menuUI(self.mainwindow )
+        product_menuUI(self.user_name,self.mainwindow )
 
     def on_window_sell_products(self):
         from gui.product_selling.product_sellingui import ProductSellingUI
         #self.open_window(ProductSellingUI)
-        ProductSellingUI(self.mainwindow )
+        ProductSellingUI(self.user_name,self.mainwindow )
 
     def on_window_logout(self):
         from gui.login.loginui import loginUI
