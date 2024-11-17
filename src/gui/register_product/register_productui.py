@@ -1,13 +1,11 @@
-#!/usr/bin/python3
 import tkinter as tk
-import ttkbootstrap as ttk
-
+from tkinter import ttk, messagebox
+from models.Product import Product
 
 class RegisterProductUI:
     def __init__(self, master=None):
-        # Set up the main window using ttkbootstrap theme
-        self.style = ttk.Style(theme="flatly")
-        toplevel1 = self.style.master if master is None else tk.Toplevel(master)
+        # Set up the main window
+        toplevel1 = tk.Toplevel(master) if master else tk.Tk()
         self.img_user_color = tk.PhotoImage(file="src/img/user_color.png")
         toplevel1.configure(
             background="#ffffff",
@@ -24,46 +22,69 @@ class RegisterProductUI:
         canvas3.configure(
             background="#f9f9f9",
             relief="flat",
-            selectbackground="#c0c0c0",
-            state="disabled"
+            highlightthickness=0
         )
         canvas3.place(height=500, width=500, x=100, y=100)
 
-        # Entries with ttkbootstrap styling
-        self.txt_code = ttk.Entry(toplevel1, bootstyle="info")
+        # Entries
+        self.txt_code = tk.Entry(toplevel1, bg="#e3f2fd", fg="#000", highlightbackground="#64b5f6", relief="solid")
         self.txt_code.place(anchor="nw", height=30, width=150, x=350, y=200)
-        self.txt_name = ttk.Entry(toplevel1, bootstyle="info")
+
+        self.txt_name = tk.Entry(toplevel1, bg="#e3f2fd", fg="#000", highlightbackground="#64b5f6", relief="solid")
         self.txt_name.place(anchor="nw", height=30, width=150, x=350, y=250)
-        self.spn_stock = ttk.Spinbox(toplevel1, bootstyle="info", increment=1)
+
+        self.spn_stock = tk.Spinbox(toplevel1, from_=0, to=1000, increment=1, bg="#e3f2fd", fg="#000", relief="solid")
         self.spn_stock.place(anchor="nw", height=30, width=150, x=350, y=350)
-        self.txt_price = ttk.Entry(toplevel1, bootstyle="info")
+
+        self.txt_price = tk.Entry(toplevel1, bg="#e3f2fd", fg="#000", highlightbackground="#64b5f6", relief="solid")
         self.txt_price.place(anchor="nw", height=30, width=150, x=350, y=400)
-        self.cbx_category = ttk.Combobox(toplevel1, bootstyle="info")
+
+        self.cbx_category = ttk.Combobox(toplevel1, values=["Ropa", "Comida", "Muebles", "Herramientas"])
         self.cbx_category.place(anchor="nw", height=30, width=150, x=350, y=300)
 
         # Labels
-        self.lbl_code = ttk.Label(toplevel1, text="Código:", background="#f9f9f9")
+        self.lbl_code = tk.Label(toplevel1, text="Código:", background="#f9f9f9", fg="#000")
         self.lbl_code.place(anchor="nw", x=200, y=200)
-        self.lbl_name = ttk.Label(toplevel1, text="Nombre:", background="#f9f9f9")
+
+        self.lbl_name = tk.Label(toplevel1, text="Nombre:", background="#f9f9f9", fg="#000")
         self.lbl_name.place(anchor="nw", x=200, y=250)
-        self.lbl_category = ttk.Label(toplevel1, text="Categoría:", background="#f9f9f9")
+
+        self.lbl_category = tk.Label(toplevel1, text="Categoría:", background="#f9f9f9", fg="#000")
         self.lbl_category.place(anchor="nw", x=200, y=300)
-        self.lbl_stock = ttk.Label(toplevel1, text="Stock:", background="#f9f9f9")
+
+        self.lbl_stock = tk.Label(toplevel1, text="Stock:", background="#f9f9f9", fg="#000")
         self.lbl_stock.place(anchor="nw", x=200, y=350)
-        self.lbl_price = ttk.Label(toplevel1, text="Precio:", background="#f9f9f9")
+
+        self.lbl_price = tk.Label(toplevel1, text="Precio:", background="#f9f9f9", fg="#000")
         self.lbl_price.place(anchor="nw", x=200, y=400)
-        label8 = ttk.Label(toplevel1, text="Registro de Producto", background="#ffffff", font=("Helvetica", 16, "bold"))
+
+        label8 = tk.Label(
+            toplevel1,
+            text="Registro de Producto",
+            background="#ffffff",
+            font=("Helvetica", 16, "bold"),
+            fg="#000"
+        )
         label8.place(anchor="nw", x=300, y=40)
 
-        # Buttons with different ttkbootstrap styles
-        self.btn_register = ttk.Button(toplevel1, text="Registrar", bootstyle="primary", command=self.on_btn_register)
+        # Buttons
+        self.btn_register = tk.Button(toplevel1, text="Registrar", bg="#007bff", fg="#fff", relief="raised", command=self.on_btn_register, width=10, height=1)
         self.btn_register.place(anchor="e", x=400, y=500)
-        
-        self.btn_delete = ttk.Button(toplevel1, text="Eliminar", bootstyle="danger", command=self.on_btn_delete)
+
+        self.btn_delete = tk.Button(toplevel1, text="Eliminar", bg="#dc3545", fg="#fff", relief="raised", command=self.on_btn_delete, width=10, height=1)
         self.btn_delete.place(anchor="e", x=500, y=500)
-        
-        self.btn_clear = ttk.Button(toplevel1, text="Limpiar", bootstyle="secondary", command=self.on_btn_clear)
+
+        self.btn_clear = tk.Button(toplevel1, text="Limpiar", bg="#6c757d", fg="#fff", relief="raised", command=self.on_btn_clear, width=10, height=1)
         self.btn_clear.place(anchor="e", x=300, y=500)
+        
+        self.btn_search= tk.Button(toplevel1, text="Buscar", bg="#007bff", fg="#fff", relief="raised", command=self.on_btn_search, width=10, height=1)
+        self.btn_search.place(anchor="e", x=400, y=550)
+
+        self.btn_close = tk.Button(toplevel1, text="Salir", bg="#dc3545", fg="#fff", relief="raised", command=self.on_btn_close, width=10, height=1)
+        self.btn_close.place(anchor="e", x=500, y=550)
+
+        self.btn_modify = tk.Button(toplevel1, text="Modificar", bg="#6c757d", fg="#fff", relief="raised", command=self.on_btn_modify, width=10, height=1)
+        self.btn_modify.place(anchor="e", x=300, y=550)
 
         # Main widget
         self.mainwindow = toplevel1
@@ -72,15 +93,50 @@ class RegisterProductUI:
         self.mainwindow.mainloop()
 
     def on_btn_register(self):
-        pass  # Functionality for register button
+        code = self.txt_code.get()
+        name = self.txt_name.get()
+        category = self.cbx_category.get()
+        try:
+            price = float(self.txt_price.get())
+            stock = int(self.spn_stock.get())
+
+            if not code or not name or not category or not price or not stock:
+                messagebox.showwarning("Advertencia", "Por favor, complete todos los campos antes de registrar.")
+                return
+
+        except ValueError:
+            messagebox.showerror("Error", "Precio y Stock deben ser números")
+            return
+
+        if Product.find_by_code(code):
+            messagebox.showinfo("Error", "El producto ya existe")
+        else:
+            Product.insert(code, name, category, price, stock)
+            messagebox.showinfo("Éxito", "Producto registrado")
 
     def on_btn_delete(self):
-        pass  # Functionality for delete button
+        code = self.txt_code.get()
+        product = Product.find_by_code(code)
+        if product:
+            product.delete()
+            messagebox.showinfo("Éxito", "Producto eliminado")
+            self.on_btn_clear()
+        else:
+            messagebox.showerror("Error", "Producto no encontrado")
 
     def on_btn_clear(self):
-        pass  # Functionality for clear button
+        self.txt_code.delete(0, tk.END)
+        self.txt_name.delete(0, tk.END)
+        self.cbx_category.set("")
+        self.spn_stock.delete(0, tk.END)
+        self.txt_price.delete(0, tk.END)
+        
+    def on_btn_search(self):
+        pass
+    
+    def on_btn_close(self):
+        pass
+    def on_btn_modify(self):
+        pass
 
 
-if __name__ == "__main__":
-    app = RegisterProductUI()
-    app.run()

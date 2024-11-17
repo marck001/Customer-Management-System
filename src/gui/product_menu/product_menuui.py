@@ -1,9 +1,11 @@
 #!/usr/bin/python3
 import tkinter as tk
+from tkinter import messagebox
 import tkinter.ttk as ttk
 from pygubu.widgets.combobox import Combobox
 from tkcalendar import DateEntry
-
+from models.Selling import Selling
+from models.Product import Product
 class product_menuUI:
     def __init__(self, master=None):
         # build ui
@@ -154,7 +156,7 @@ class product_menuUI:
             width=110,
             x=0,
             y=0)
-        self.btnVaciar = ttk.Button(self.productMenu, name="btnvaciar")
+        self.btnVaciar = ttk.Button(self.productMenu, name="btnvaciar",command=self.empty)
         self.img_delete = tk.PhotoImage(file="src/img/delete.gif")
         self.btnVaciar.configure(image=self.img_delete, text='\n')
         self.btnVaciar.place(
@@ -202,7 +204,7 @@ class product_menuUI:
             width=110,
             x=0,
             y=0)
-        self.btnGuardar = ttk.Button(self.productMenu, name="btnguardar")
+        self.btnGuardar = ttk.Button(self.productMenu, name="btnguardar",command=self.save)
         self.img_save = tk.PhotoImage(file="src/img/save.gif")
         self.btnGuardar.configure(image=self.img_save, text='button2')
         self.btnGuardar.place(anchor="nw", relx=0.57, rely=0.82, x=0, y=0)
@@ -237,7 +239,7 @@ class product_menuUI:
             width=90,
             x=0,
             y=0)
-        self.btnMostra = ttk.Button(self.productMenu, name="btnmostra")
+        self.btnMostra = ttk.Button(self.productMenu, name="btnmostra",command=self.list_by_category_tbl)
         self.img_Lista = tk.PhotoImage(file="src/img/Lista.gif")
         self.btnMostra.configure(
             cursor="arrow",
@@ -264,7 +266,7 @@ class product_menuUI:
             x=0,
             y=0)
         self.btnBuscarProducto = ttk.Button(
-            self.productMenu, name="btnbuscarproducto")
+            self.productMenu, name="btnbuscarproducto",command=self.searchProduct)
         self.btnBuscarProducto.configure(
             compound="top",
             cursor="arrow",
@@ -279,23 +281,100 @@ class product_menuUI:
             width=30,
             x=0,
             y=0)
-        self.cbxFecha = DateEntry(self.productMenu, name="cbxfecha", width=12, background='darkblue', foreground='white', borderwidth=2)
+        
+        self.cbxFecha = DateEntry(
+            self.productMenu, 
+            width=12, 
+            date_pattern="yyyy-MM-dd"  # Ensure valid date pattern
+            )
         self.cbxFecha.place(
             anchor="nw",
             relx=0.82,
             rely=0.04,
-            width=110,
-            x=0,
-            y=0)
+            width=110
+            )
         self.productMenu.pack_propagate(0)
+        
+        self.list()
 
         # Main widget
         self.mainwindow = self.productMenu
 
     def run(self):
         self.mainwindow.mainloop()
+    
+    def empty(self):
+        self.txtCodigo.delete(0, 'end') 
+        self.txtProducto.delete(0, 'end')  
+        self.txtCategoria.delete(0, 'end') 
+        self.txtPrecio.delete(0, 'end') 
+        self.cbxFecha.set_date(self.cbxFecha['values'][0]) 
+
+    def save(self):
+        user_name=self.txtCodigoCliente.get()
+        product_name=self.txtProducto.get()
+        category=self.txtCategoria.get()
+        price=self.txtPrecio.get()
+        date=self.cbxFecha.get_date()
+        print(date)
+        if not user_name or not product_name or not category or not price or not date:
+            messagebox.showerror("Error", "Llene todos los campos de texto.")
+            return
+        try:
+            Selling.insert(user_name, product_name, category, price, date)
+            messagebox.showinfo("Éxito", "Producto guardado correctamente.")
+        except Exception as e:
+            messagebox.showerror("Error de registro", f"Ocurrió un error: {e}")
+    
+    def list(self):
+        products = Product.list_all() 
+        self.tablaVentas.delete(*self.tablaVentas.get_children()) 
+        for pro in products:
+            self.tablaVentas.insert("", "end", values=(
+            pro.code,       
+            pro.name,    
+            pro.stock,        
+            pro.category,    
+            pro.price      
+        ))
+            
+    def list_by_category_tbl(self):
+        category = self.cbxCategoria.get()
+        products = Product.list_by_category(category)
+        self.tablaVentas.delete(*self.tablaVentas.get_children()) 
+        for pro in products:
+            self.tablaVentas.insert("", "end", values=(
+            pro.code,       
+            pro.name,    
+            pro.stock,        
+            pro.category,    
+            pro.price      
+        ))
+            
+        
+    def searchProduct(self):
+        code = self.txtCodigo.get()  
+        product = Product.find_by_code(code)
+        if product:
+            self.txtProducto.delete(0, tk.END)  
+            self.txtProducto.insert(0, product.name)  
+
+            self.txtCategoria.delete(0, tk.END) 
+            self.txtCategoria.insert(0, product.category)  
+
+            self.txtPrecio.delete(0, tk.END) 
+            self.txtPrecio.insert(0, product.price)
+            
+            self.txtStock.delete(0, tk.END) 
+            self.txtStock.insert(0, product.stock)
+
+            self.txtDisponible.delete(0, tk.END) 
+            self.txtDisponible.insert(0, "si") 
+            #messagebox.showinfo("Producto encontrado", f"Nombre: {product.name}\nCategoría: {product.category}\nPrecio: {product.price}\nStock: {product.stock}")
+        else:
+           
+            messagebox.showerror("Error", "Producto no encontrado.")
 
 
-if __name__ == "__main__":
-    app = product_menuUI()
-    app.run()
+
+
