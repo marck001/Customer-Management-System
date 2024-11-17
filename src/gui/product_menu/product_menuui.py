@@ -156,8 +156,8 @@ class product_menuUI:
             width=110,
             x=0,
             y=0)
-        self.btnVaciar = ttk.Button(self.productMenu, name="btnvaciar",command=self.empty)
-        self.img_delete = tk.PhotoImage(file="src/img/delete.gif")
+        self.btnVaciar = ttk.Button(self.productMenu, name="btnvaciar",command=self.selling)
+        self.img_delete = tk.PhotoImage(file="src/img/pay.png")
         self.btnVaciar.configure(image=self.img_delete, text='\n')
         self.btnVaciar.place(
             anchor="nw",
@@ -255,7 +255,7 @@ class product_menuUI:
             text='Mostrar por Categoria:\n')
         self.lblMostrar.place(anchor="nw", relx=0.27, rely=0.82, x=0, y=0)
         self.lblGuardar = ttk.Label(self.productMenu, name="lblguardar")
-        self.lblGuardar.configure(text='Guardar:\n')
+        self.lblGuardar.configure(text='Pagar:\n')
         self.lblGuardar.place(anchor="nw", relx=0.5, rely=0.82, x=0, y=0)
         self.txtCategoria = ttk.Entry(self.productMenu, name="txtcategoria")
         self.txtCategoria.place(
@@ -298,30 +298,54 @@ class product_menuUI:
         self.list()
 
         # Main widget
-        self.mainwindow = self.productMenu
+
 
     def run(self):
         self.mainwindow.mainloop()
     
-    def empty(self):
-        self.txtCodigo.delete(0, 'end') 
-        self.txtProducto.delete(0, 'end')  
-        self.txtCategoria.delete(0, 'end') 
-        self.txtPrecio.delete(0, 'end') 
-        self.cbxFecha.set_date(self.cbxFecha['values'][0]) 
 
+    def selling(self):
+        try:
+            product_code = self.txtCodigo.get()  
+            self.product = Product.find_by_code(product_code)
+            if self.product is None:
+                messagebox.showerror("Error", "Producto no encontrado.")
+                return
+            price = float(self.txtPrecio.get())
+            stock_to_sell = int(self.txtStock.get())
+            
+            if stock_to_sell > self.product.stock:
+                messagebox.showerror("Error", "Stock insuficiente.")
+                return
+            total_price = price * stock_to_sell
+            self.txtPagar.delete(0, tk.END)  
+            self.txtPagar.insert(0, total_price)
+        except Exception as e:
+            messagebox.showerror("Error", f"Ocurrió un error: {str(e)}")
+   
     def save(self):
         user_name=self.txtCodigoCliente.get()
         product_name=self.txtProducto.get()
         category=self.txtCategoria.get()
-        price=self.txtPrecio.get()
         date=self.cbxFecha.get_date()
+        price=self.txtPagar.get()
+        stock_to_sell = int(self.txtStock.get())
         print(date)
         if not user_name or not product_name or not category or not price or not date:
             messagebox.showerror("Error", "Llene todos los campos de texto.")
             return
         try:
             Selling.insert(user_name, product_name, category, price, date)
+            self.product.decrease_stock(stock_to_sell)
+            self.list()
+            self.txtCodigoCliente.delete(0, tk.END)
+            self.txtPrecio.delete(0, tk.END)
+            self.txtCodigo.delete(0,tk.END)
+            self.txtProducto.delete(0, tk.END)
+            self.txtCategoria.delete(0, tk.END)
+            self.txtPagar.delete(0, tk.END)
+            self.txtStock.delete(0, tk.END)
+            self.txtDisponible.delete(0,tk.END)
             messagebox.showinfo("Éxito", "Producto guardado correctamente.")
         except Exception as e:
             messagebox.showerror("Error de registro", f"Ocurrió un error: {e}")
@@ -368,8 +392,11 @@ class product_menuUI:
             self.txtStock.delete(0, tk.END) 
             self.txtStock.insert(0, product.stock)
 
-            self.txtDisponible.delete(0, tk.END) 
-            self.txtDisponible.insert(0, "si") 
+            self.txtDisponible.delete(0, tk.END)
+            if product.stock!=0: 
+                self.txtDisponible.insert(0, "si") 
+            else:
+                self.txtDisponible.insert(0, "no") 
             #messagebox.showinfo("Producto encontrado", f"Nombre: {product.name}\nCategoría: {product.category}\nPrecio: {product.price}\nStock: {product.stock}")
         else:
            
