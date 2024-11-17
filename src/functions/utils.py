@@ -1,4 +1,5 @@
 import bcrypt as by
+import random
 
 def encode_hash_function(password):
     
@@ -14,3 +15,5 @@ def decode_hash_function(password,hash):
     
     return by.checkpw(userBytes, hash) 
     
+def generate_random_code():
+    return "{:06d}".format(random.randint(0, 999999))

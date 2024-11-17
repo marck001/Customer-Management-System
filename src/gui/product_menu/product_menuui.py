@@ -6,10 +6,14 @@ from pygubu.widgets.combobox import Combobox
 from tkcalendar import DateEntry
 from models.Selling import Selling
 from models.Product import Product
+from functions.utils import generate_random_code
 class product_menuUI:
-    def __init__(self, master=None):
+    def __init__(self, user_name, master=None):
         # build ui
         self.productMenu = tk.Tk() if master is None else tk.Toplevel(master)
+        self.user_name = user_name
+        
+      
         self.productMenu.configure(
             cursor="arrow",
             height=200,
@@ -285,7 +289,7 @@ class product_menuUI:
         self.cbxFecha = DateEntry(
             self.productMenu, 
             width=12, 
-            date_pattern="yyyy-MM-dd"  # Ensure valid date pattern
+            date_pattern="yyyy-MM-dd"  
             )
         self.cbxFecha.place(
             anchor="nw",
@@ -294,6 +298,7 @@ class product_menuUI:
             width=110
             )
         self.productMenu.pack_propagate(0)
+        self.txtCodigoCliente.insert(0, user_name)
         
         self.list()
 
@@ -326,6 +331,7 @@ class product_menuUI:
     def save(self):
         user_name=self.txtCodigoCliente.get()
         product_name=self.txtProducto.get()
+        code = generate_random_code()
         category=self.txtCategoria.get()
         date=self.cbxFecha.get_date()
         price=self.txtPagar.get()
@@ -335,7 +341,7 @@ class product_menuUI:
             messagebox.showerror("Error", "Llene todos los campos de texto.")
             return
         try:
-            Selling.insert(user_name, product_name, category, price, date)
+            Selling.insert(user_name, product_name, code, category, price, date)
             self.product.decrease_stock(stock_to_sell)
             self.list()
             self.txtCodigoCliente.delete(0, tk.END)
@@ -346,9 +352,9 @@ class product_menuUI:
             self.txtPagar.delete(0, tk.END)
             self.txtStock.delete(0, tk.END)
             self.txtDisponible.delete(0,tk.END)
-            messagebox.showinfo("Éxito", "Producto guardado correctamente.")
+            messagebox.showinfo("Éxito", f"Venta Realizada. \n Codigo de venta: {code} ",parent=self.productMenu)
         except Exception as e:
-            messagebox.showerror("Error de registro", f"Ocurrió un error: {e}")
+            messagebox.showerror("Error de registro", f"Ocurrió un error: {e}",parent=self.productMenu)
     
     def list(self):
         products = Product.list_all() 
