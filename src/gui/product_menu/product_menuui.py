@@ -281,21 +281,18 @@ class product_menuUI:
             width=30,
             x=0,
             y=0)
+        
         self.cbxFecha = DateEntry(
             self.productMenu, 
-            name="cbxfecha", 
             width=12, 
-            bootstyle="primary",  # Optional style
-            dateformat="%Y-%m-%d"  # Adjust date format as needed
-        )
+            date_pattern="yyyy-MM-dd"  # Ensure valid date pattern
+            )
         self.cbxFecha.place(
             anchor="nw",
             relx=0.82,
             rely=0.04,
-            width=110,
-            x=0,
-            y=0
-        )
+            width=110
+            )
         self.productMenu.pack_propagate(0)
         
         self.list()
@@ -381,6 +378,3 @@ class product_menuUI:
 
 
 
-if __name__ == "__main__":
-    app = product_menuUI()
-    app.run()
