@@ -2,6 +2,8 @@
 import tkinter as tk
 from tkinter import ttk
 from tkcalendar import DateEntry
+from models.Selling import Selling
+from tkinter import messagebox
 
 class ProductSellingUI:
     def __init__(self, user_name, master=None):
@@ -21,7 +23,7 @@ class ProductSellingUI:
             "col_code": ("Codigo", 100),
             "col_product": ("Nombre Producto", 100),
             "col_category": ("Categoria", 100),
-            "col_price": ("Precio", 100),
+            "col_price": ("Monto", 100),
             "col_date": ("Fecha", 100),
         }
 
@@ -38,15 +40,15 @@ class ProductSellingUI:
         self.lbl_text.place(anchor="nw", relx=0.38, rely=0.11, x=0, y=0)
 
 
-        entry_code = ttk.Entry(self.mainwindow)
-        entry_code.place(anchor="nw", relx=0.22, rely=0.23, x=0, y=0)
+        self.entry_code = ttk.Entry(self.mainwindow)
+        self.entry_code.place(anchor="nw", relx=0.22, rely=0.23, x=0, y=0)
 
    
-        button_search = ttk.Button(self.mainwindow, text="Buscar")
+        button_search = ttk.Button(self.mainwindow, text="Buscar",command=self.search_selling_by_code)
         button_search.place(anchor="nw", relx=0.45, rely=0.23, x=0, y=0)
 
         
-        self.lbl_code = tk.Label(self.mainwindow, text="Cliente", bg="#f0f0f0", font=("Helvetica", 10))
+        self.lbl_code = tk.Label(self.mainwindow, text="Codigo Venta", bg="#f0f0f0", font=("Helvetica", 10))
         self.lbl_code.place(anchor="nw", relx=0.07, rely=0.23, x=0, y=0)
         
         self.btnMostra = ttk.Button(self.mainwindow, name="btndisplay",command=self.list_by_date)
@@ -69,17 +71,57 @@ class ProductSellingUI:
             rely=0.22,
             width=110
             )
+        self.list_all()
 
     def run(self):
         self.mainwindow.mainloop()
         
     def list_all(self):
-        pass
+        sellings = Selling.list_all(user=self.user_name) 
+        self.tree_view.delete(*self.tree_view.get_children()) 
+        for sell in sellings:
+            self.tree_view.insert("", "end", values=(
+            sell.code,    
+            sell.product_name,      
+            sell.category,        
+            sell.price,    
+            sell.date      
+        ))
     
     def search_selling_by_code(self):
-        pass
+        code = self.entry_code.get()
+        selling = Selling.find_by_code(code)
+        self.tree_view.delete(*self.tree_view.get_children())
+
+        if selling:
+            self.tree_view.insert("", "end", values=(
+                selling.code,
+                selling.product_name,
+                selling.category,
+                selling.price,
+                selling.date
+            ))
+        else:
+            messagebox.showerror("Error", "Producto no encontrado.",self.mainwindow)
+        
+
+        
     
     def list_by_date(self):
-        pass
+        
+        user = self.user_name
+        date = self.cbxFecha.get_date()
+        date = date.strftime("%Y-%m-%d")
+        
+        sellings = Selling.list_by_user(user,date) 
+        self.tree_view.delete(*self.tree_view.get_children()) 
+        for sell in sellings:
+            self.tree_view.insert("", "end", values=(
+            sell.code,    
+            sell.product_name,      
+            sell.category,        
+            sell.price,    
+            sell.date      
+        ))
     
 

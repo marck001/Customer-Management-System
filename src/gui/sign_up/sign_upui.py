@@ -45,9 +45,15 @@ class sign_upUI:
             self.frame, name="entry_contrasenia")
         self.entry_contrasenia.configure(width=60)
         self.entry_contrasenia.place(anchor="nw", height=40, x=480, y=380)
-        self.btn_Registrarse = ttk.Button(self.frame, name="btn_registrarse",command=self.register_user)
+        style = ttk.Style()
+        style.configure("Custom.TButton",
+                        background="#4ad5f7", 
+                        foreground="black", 
+                        font=("Roboto", 10, "bold")) 
+        style.map("Custom.TButton", background=[("active", "#e3f2fd"), ("!disabled", "#e3f2fd")]) 
+        self.btn_Registrarse = ttk.Button(self.frame, name="btn_registrarse",command=self.register_user, style="Custom.TButton")
         self.btn_Registrarse.configure(text='   Registrarse   ', width=25)
-        self.btn_Registrarse.place(anchor="nw", x=630, y=585)
+        self.btn_Registrarse.place(anchor="nw", x=580, y=585)
         canvas4 = tk.Canvas(self.frame)
         canvas4.configure(background="#4ad5f7", height=1100, width=400)
         canvas4.place(anchor="nw", x=0, y=0)
@@ -64,14 +70,14 @@ class sign_upUI:
         self.lbl_correo = ttk.Label(self.frame, name="lbl_correo")
         self.lbl_correo.configure(
             font="{times} 16 {}",
-            text='Correo Elecontronico')
+            text='Correo Electronico')
         self.lbl_correo.place(anchor="nw", x=480, y=450)
         self.entry_correo = ttk.Entry(self.frame, name="entry_correo")
         self.entry_correo.configure(width=60)
         self.entry_correo.place(anchor="nw", height=40, x=480, y=510)
-        self.btn_irInicio = ttk.Button(self.frame, name="btn_irinicio", command=self.go_to_login_window)
+        self.btn_irInicio = ttk.Button(self.frame, name="btn_irinicio", command=self.go_to_login_window, style="Custom.TButton")
         self.btn_irInicio.configure(text='   Ir a Login   ', width=25)
-        self.btn_irInicio.place(anchor="nw", x=630, y=635)
+        self.btn_irInicio.place(anchor="nw", x=580, y=635)
 
         # Main widget
         self.mainwindow = self.frame

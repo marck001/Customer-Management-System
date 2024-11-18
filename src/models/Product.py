@@ -34,9 +34,9 @@ class Product:
     
 
     @classmethod
-    def update(self, **kwargs):
-        update_data = {key: value for key, value in kwargs.items() if hasattr(self, key)}
-        return self.collection.update_one({'code': self.code}, {'$set': update_data})
+    def update(cls, code, **kwargs):
+        update_data = {key: value for key, value in kwargs.items() if key in ['name','category','price','stock'] }
+        return cls.collection.update_one({'code': code}, {'$set': update_data})
 
     @classmethod
     def delete(self):
