@@ -312,24 +312,24 @@ class product_menuUI:
         try:
             product_code = self.txtCodigo.get().strip()
             if not product_code:
-                messagebox.showerror("Error", "Debe ingresar el código del producto.")
+                messagebox.showerror("Error", "Debe ingresar el código del producto.",parent=self.productMenu)
                 return
             
             self.product = Product.find_by_code(product_code)
             
             if self.product is None:
-                messagebox.showerror("Error", "Producto no encontrado.")
+                messagebox.showerror("Error", "Producto no encontrado.",parent=self.productMenu)
                 return
             
             price = float(self.txtPrecio.get())
             stock_to_sell = int(self.txtStock.get())
 
             if stock_to_sell > self.product.stock:
-                messagebox.showerror("Error", "Stock insuficiente.")
+                messagebox.showerror("Error", "Stock insuficiente.",parent=self.productMenu)
                 return
             
             if self.product.stock == 0:
-                messagebox.showerror("Error", "El producto no tiene stock disponible.")
+                messagebox.showerror("Error", "El producto no tiene stock disponible.",parent=self.productMenu)
                 return
             
             total_price = price * stock_to_sell
@@ -337,7 +337,7 @@ class product_menuUI:
             self.txtPagar.insert(0, total_price)
 
         except Exception as e:
-            messagebox.showerror("Error", f"Ocurrió un error: {str(e)}")
+            messagebox.showerror("Error", f"Ocurrió un error: {str(e)}",parent=self.productMenu)
    
     def save(self):
         user_name=self.txtCodigoCliente.get()
@@ -351,23 +351,23 @@ class product_menuUI:
         print(date)
         
         if not user_name or not product_name or not category or not price or not date:
-            messagebox.showerror("Error", "Llene todos los campos de texto.")
+            messagebox.showerror("Error", "Llene todos los campos de texto.",parent=self.productMenu)
             return
         self.product = Product.find_by_code(code)
         if self.product is None:
-            messagebox.showerror("Error", "Producto no encontrado.")
+            messagebox.showerror("Error", "Producto no encontrado.",parent=self.productMenu)
             return
         if product_name != self.product.name:
-            messagebox.showerror("Error", "El nombre del producto no coincide.")
+            messagebox.showerror("Error", "El nombre del producto no coincide.",parent=self.productMenu)
             return   
         if category != self.product.category:
-            messagebox.showerror("Error", "La categoría del producto no coincide.")
+            messagebox.showerror("Error", "La categoría del producto no coincide.",parent=self.productMenu)
             return
         if price_ant != self.product.price:
-            messagebox.showerror("Error", "El precio ingresado no coincide con el precio del producto.")
+            messagebox.showerror("Error", "El precio ingresado no coincide con el precio del producto.",parent=self.productMenu)
             return
         if abs(price - stock_to_sell * price_ant) > 1e-6:
-            messagebox.showerror("Error", "El precio a pagar no coincide con el calculado.")
+            messagebox.showerror("Error", "El precio a pagar no coincide con el calculado.",parent=self.productMenu)
             return
         try:
             Selling.insert(user_name, product_name, code, category, price, date)
@@ -432,7 +432,7 @@ class product_menuUI:
                 self.txtDisponible.insert(0, "si") 
             else:
                 self.txtDisponible.insert(0, "no") 
-            messagebox.showinfo("Producto encontrado", "El producto ha sido cargado correctamente.")
+            messagebox.showinfo("Producto encontrado", "El producto ha sido cargado correctamente.",parent=self.productMenu)
             self.btnModificar = ttk.Button(
             self.productMenu, text="Modificar", command=lambda: self.modify_product(product)
             )
@@ -448,11 +448,11 @@ class product_menuUI:
             new_stock = int(self.txtStock.get().strip())
 
             if not new_name or not new_category:
-                messagebox.showerror("Error", "Todos los campos deben estar llenos.")
+                messagebox.showerror("Error", "Todos los campos deben estar llenos.",parent=self.productMenu)
                 return
 
-            product.update(name=new_name, category=new_category, price=new_price, stock=new_stock)
-            messagebox.showinfo("Éxito", "El producto ha sido modificado")
+            Product.update(name=new_name, category=new_category, price=new_price, stock=new_stock)
+            messagebox.showinfo("Éxito", "El producto ha sido modificado",parent=self.productMenu)
 
             self.list()
 
@@ -463,7 +463,7 @@ class product_menuUI:
             self.txtStock.delete(0, tk.END)
             self.txtDisponible.delete(0, tk.END)
         except Exception as e:
-            messagebox.showerror("Error", f"No se pudo modificar el producto: {str(e)}")
+            messagebox.showerror("Error", f"No se pudo modificar el producto: {str(e)}",parent=self.productMenu)
 
 
 
