@@ -17,4 +17,9 @@ class Register_product(baseui.Register_productUI):
     def on_btn_clear(self, widget_id):
         pass
 
+    def on_btn_search(self, widget_id):
+        pass
+    
+    def on_btn_modify(sel, widget_id):
+        pass
 

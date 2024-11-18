@@ -131,12 +131,51 @@ class RegisterProductUI:
         self.spn_stock.delete(0, tk.END)
         self.txt_price.delete(0, tk.END)
         
-    def on_btn_search(self):
-        pass
+
     
     def on_btn_close(self):
-        pass
-    def on_btn_modify(self):
-        pass
+       self.mainwindow.destroy()
+
+    def on_btn_search(self, widget_id):
+        product_id = self.txt_code.get()
+        name = self.txt_name.get()
+        category = self.cbx_category.get()
+        price = float(self.txt_price.get())
+        stock = int(self.spn_stock.get())
+        
+        product = Product.find_by_code(product_id) 
+        
+         
+        if  product:
+            self.txt_name.delete(0, tk.END)  
+            self.txt_name.insert(0, product.name)  
+
+            self.cbx_category.delete(0, tk.END) 
+            self.cbx_category.insert(0, product.category)  
+
+            self.txt_price.delete(0, tk.END) 
+            self.txt_price.insert(0, product.price)
+            
+            self.spn_stock.delete(0, tk.END) 
+            self.spn_stock.insert(0, product.stock)
+            
+            
+           
+        else:
+           messagebox.showerror("Error", "Producto no encontrado",parent=self.mainwindow)
+
+    def on_btn_modify(self, widget_id):
+        product_id = self.txt_code.get()
+        new_name = self.entry_product_name.get()
+        new_price = self.entry_product_price.get()
+
+        #obtener los valores y ponerlos en la funcion para modificar
+        if product_id and new_name and new_price:
+            Product.update()
+            print(f"Modificando producto {product_id} con nombre: {new_name}, precio: {new_price}")
+        else:
+            print("Por favor, complete todos los campos para modificar.")   
+    
+
 
 
