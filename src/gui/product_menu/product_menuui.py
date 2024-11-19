@@ -369,6 +369,7 @@ class product_menuUI:
             return
         if abs(price - float(stock_to_sell) * price_ant) > 1e-6:
             messagebox.showerror("Error", "El precio a pagar no coincide con el calculado.",parent=self.productMenu)
+            self.txtPagar.delete(0, tk.END)
             self.txtPagar.insert(0,  price_ant)
             return
         try:
