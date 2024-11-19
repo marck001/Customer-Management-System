@@ -441,6 +441,7 @@ class product_menuUI:
             messagebox.showerror("Error", "El producto no existe.")
     
     def modify_product(self, product):
+       
         try:
             new_name = self.txtProducto.get().strip()
             new_category = self.txtCategoria.get().strip()

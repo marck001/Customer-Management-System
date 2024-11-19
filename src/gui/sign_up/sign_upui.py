@@ -14,6 +14,7 @@ class sign_upUI:
             height=700,
             relief="raised",
             takefocus=True,
+            background="#f5f5f5",
             width=1100)
         self.frame.overrideredirect("false")
         self.frame.resizable(True, False)
@@ -27,10 +28,11 @@ class sign_upUI:
             padding=5,
             relief="flat",
             state="normal",
+            background="#f5f5f5",
             text='Registro\n')
         self.lbl_titulo.place(anchor="nw", x=650, y=60)
-        self.lbl_usuario = ttk.Label(self.frame, name="lbl_usuario")
-        self.lbl_usuario.configure(font="{times} 16 {}", text='Usuario')
+        self.lbl_usuario = ttk.Label(self.frame, name="lbl_usuario",background="#f5f5f5")
+        self.lbl_usuario.configure(font="{times} 16 {}", text='Usuario', background="#f5f5f5",)
         self.lbl_usuario.place(anchor="nw", x=480, y=190)
         self.entry_usuario = ttk.Entry(self.frame, name="entry_usuario")
         self.entry_usuario.configure(width=60)
@@ -39,6 +41,7 @@ class sign_upUI:
         self.lbl_contrasenia.configure(
             font="{times} 16 {}",
             relief="flat",
+            background="#f5f5f5",
             text='Contraseña')
         self.lbl_contrasenia.place(anchor="nw", x=480, y=310)
         self.entry_contrasenia = ttk.Entry(
@@ -46,11 +49,12 @@ class sign_upUI:
         self.entry_contrasenia.configure(width=60)
         self.entry_contrasenia.place(anchor="nw", height=40, x=480, y=380)
         style = ttk.Style()
+        style.theme_use("clam")
         style.configure("Custom.TButton",
-                        background="#4ad5f7", 
+                        background="#00ffff", 
                         foreground="black", 
                         font=("Roboto", 10, "bold")) 
-        style.map("Custom.TButton", background=[("active", "#e3f2fd"), ("!disabled", "#e3f2fd")]) 
+        style.map("Custom.TButton", background=[("active", "#a0ffff"), ("!disabled", "#00ffff")]) 
         self.btn_Registrarse = ttk.Button(self.frame, name="btn_registrarse",command=self.register_user, style="Custom.TButton")
         self.btn_Registrarse.configure(text='   Registrarse   ', width=25)
         self.btn_Registrarse.place(anchor="nw", x=580, y=585)
@@ -70,6 +74,7 @@ class sign_upUI:
         self.lbl_correo = ttk.Label(self.frame, name="lbl_correo")
         self.lbl_correo.configure(
             font="{times} 16 {}",
+             background="#f5f5f5",
             text='Correo Electronico')
         self.lbl_correo.place(anchor="nw", x=480, y=450)
         self.entry_correo = ttk.Entry(self.frame, name="entry_correo")

@@ -10,7 +10,7 @@ class loginUI:
     def __init__(self, master=None):
         # build ui
         self.frame = tk.Tk(master)
-        self.frame.configure(height=700, relief="flat", width=1100)
+        self.frame.configure(height=700, relief="flat", background="#f5f5f5", width=1100)
         self.frame.overrideredirect("false")
         self.frame.resizable(True, True)
         self.lbl_titulo = ttk.Label(self.frame, name="lbl_titulo")
@@ -21,11 +21,19 @@ class loginUI:
             font="{times new roman} 36 {}",
             justify="center",
             padding=5,
+            background="#f5f5f5",
             relief="flat",
             state="normal",
             text='Inicio de Sesion\n')
+        style = ttk.Style()
+        style.theme_use("clam")
+        style.configure("Custom.TButton",
+                        background="#00ffff", 
+                        foreground="black", 
+                        font=("Roboto", 10, "bold")) 
+        style.map("Custom.TButton", background=[("active", "#a0ffff"), ("!disabled", "#00ffff")]) 
         self.lbl_titulo.place(anchor="nw", x=540, y=60)
-        self.lbl_usuario = ttk.Label(self.frame, name="lbl_usuario")
+        self.lbl_usuario = ttk.Label(self.frame, name="lbl_usuario", background="#f5f5f5",)
         self.lbl_usuario.configure(font="{times} 16 {}", text='Usuario')
         self.lbl_usuario.place(anchor="nw", x=480, y=210)
         self.entry_usuario = ttk.Entry(self.frame, name="entry_usuario")
@@ -35,6 +43,7 @@ class loginUI:
         self.lbl_contrasenia.configure(
             font="{times} 16 {}",
             relief="flat",
+            background="#f5f5f5",
             text='Contraseña')
         self.lbl_contrasenia.place(anchor="nw", x=480, y=360)
         self.entry_contrasenia = ttk.Entry(
@@ -42,14 +51,14 @@ class loginUI:
         self.entry_contrasenia.configure(width=60)
         self.entry_contrasenia.place(anchor="nw", height=40, x=480, y=430)
         self.btn_IniciarSesion = ttk.Button(
-            self.frame, name="btn_iniciarsesion", command=self.login_action)
+            self.frame, name="btn_iniciarsesion", command=self.login_action, style="Custom.TButton")
         self.btn_IniciarSesion.configure(
             compound="top",
             cursor="arrow",
             text='Iniciar Sesion',
             width=25)
         self.btn_IniciarSesion.place(anchor="nw", x=630, y=525)
-        self.btn_Registrarse = ttk.Button(self.frame, name="btn_registrarse", command=self.open_register_window)
+        self.btn_Registrarse = ttk.Button(self.frame, name="btn_registrarse", command=self.open_register_window, style="Custom.TButton")
         self.btn_Registrarse.configure(text='   Registrarse   ', width=25)
         self.btn_Registrarse.place(anchor="nw", x=630, y=600)
         canvas4 = tk.Canvas(self.frame)

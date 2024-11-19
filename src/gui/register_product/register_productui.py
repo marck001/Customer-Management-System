@@ -138,14 +138,13 @@ class RegisterProductUI:
 
     def on_btn_search(self, widget_id):
         product_id = self.txt_code.get()
-        name = self.txt_name.get()
-        category = self.cbx_category.get()
-        price = float(self.txt_price.get())
-        stock = int(self.spn_stock.get())
+        #name = self.txt_name.get()
+        #category = self.cbx_category.get()
+        #price = float(self.txt_price.get())
+        #stock = int(self.spn_stock.get())
         
         product = Product.find_by_code(product_id) 
-        
-         
+            
         if  product:
             self.txt_name.delete(0, tk.END)  
             self.txt_name.insert(0, product.name)  
@@ -158,16 +157,17 @@ class RegisterProductUI:
             
             self.spn_stock.delete(0, tk.END) 
             self.spn_stock.insert(0, product.stock)
-            
-            
-           
+                     
         else:
            messagebox.showerror("Error", "Producto no encontrado",parent=self.mainwindow)
 
-    def on_btn_modify(self, widget_id):
+    def on_btn_modify(self):
+         # aqui no puede ir parametro porque es evento, solo llamalo de ahi por buscar
         product_id = self.txt_code.get()
-        new_name = self.entry_product_name.get()
-        new_price = self.entry_product_price.get()
+        new_name = self.txt_name.get()
+        new_price =  float(self.txt_price.get())
+        new_category = self.cbx_category.get()
+        new_stock = int(self.spn_stock.get())
 
         #obtener los valores y ponerlos en la funcion para modificar
         if product_id and new_name and new_price:
