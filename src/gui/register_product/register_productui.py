@@ -136,12 +136,9 @@ class RegisterProductUI:
     def on_btn_close(self):
        self.mainwindow.destroy()
 
-    def on_btn_search(self, widget_id):
+    def on_btn_search(self):
         product_id = self.txt_code.get()
-        #name = self.txt_name.get()
-        #category = self.cbx_category.get()
-        #price = float(self.txt_price.get())
-        #stock = int(self.spn_stock.get())
+
         
         product = Product.find_by_code(product_id) 
             
@@ -162,19 +159,24 @@ class RegisterProductUI:
            messagebox.showerror("Error", "Producto no encontrado",parent=self.mainwindow)
 
     def on_btn_modify(self):
-         # aqui no puede ir parametro porque es evento, solo llamalo de ahi por buscar
+       
         product_id = self.txt_code.get()
         new_name = self.txt_name.get()
         new_price =  float(self.txt_price.get())
         new_category = self.cbx_category.get()
         new_stock = int(self.spn_stock.get())
 
-        #obtener los valores y ponerlos en la funcion para modificar
-        if product_id and new_name and new_price:
-            Product.update()
-            print(f"Modificando producto {product_id} con nombre: {new_name}, precio: {new_price}")
+       
+        if product_id and new_name and new_price and new_category and new_stock:
+            
+            if Product.find_by_code(product_id):
+              Product.update(code=product_id,name=new_name, category=new_category, price=new_price, stock=new_stock)
+              messagebox.showinfo(f"Modificando producto {product_id} con nombre: {new_name}, precio: {new_price}",self.mainwindow)
+            else:
+               messagebox.showerror("Error", "Producto no existente",parent=self.mainwindow)
         else:
-            print("Por favor, complete todos los campos para modificar.")   
+            messagebox.showerror("Error", "Por favor, complete todos los campos para modificar.",parent=self.mainwindow)
+
     
 
 

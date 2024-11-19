@@ -101,21 +101,25 @@ class loginUI:
         self.mainwindow.destroy()
         RegisterUI()
 
+    #login action event
     def login_action(self):
 
         username = self.entry_usuario.get()
         password1 = self.entry_contrasenia.get()
 
         if not username or not password1:
-            messagebox.showwarning("Por favor ingresa tanto el usuario como la contraseña")
+            messagebox.showwarning("Por favor ingresa tanto el usuario como la contraseña", self.mainwindow)
             return
         user_data = User.find_user(username) 
-        if decode_hash_function(password1, user_data.password):          
+        if user_data:
+           if decode_hash_function(password1, user_data.password):          
             messagebox.showinfo("Éxito", "Inicio de sesión exitoso")
             self.mainwindow.destroy()  
             MenuUI(user_name=username) 
+           else:
+                messagebox.showerror("Error", "Usuario o contraseña incorrectos")
         else:
-            messagebox.showerror("Error", "Usuario o contraseña incorrectos")
+            messagebox.showerror("Error", "Usuario no registrado")
 
 
     def run(self, center=False):
@@ -127,7 +131,3 @@ class loginUI:
             self.center_map = self.mainwindow.bind("<Map>", self.center)
         self.mainwindow.mainloop()
 
-if __name__ == "__main__":
-    app = loginUI()
-    app.run()
-    

@@ -97,12 +97,12 @@ class sign_upUI:
             return
         
         try:           
-           User.insert(username,email,password)          
-           self.mainwindow.destroy()         
-           MenuUI(user_name=username)
-           
-           messagebox.showinfo("Success", "Usuario registrado correctamente. Iniciando sesion!")
-           
+           if User.insert(username,email,password):         
+             self.mainwindow.destroy()         
+             MenuUI(user_name=username)
+             messagebox.showinfo("Success", "Usuario registrado correctamente. Iniciando sesion!")
+           else:
+                messagebox.showinfo("Error", "Nombre de usuario ya se encuentra registrado!")        
            
         except Exception as e:      
             messagebox.showerror("Error de registro", f"Ocurrio un error: {e}")

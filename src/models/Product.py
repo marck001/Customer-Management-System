@@ -32,16 +32,16 @@ class Product:
         product_data = cls.collection.find_one({'name': name})
         return cls(product_data['code'], product_data['name'],  product_data['category'],product_data['price'], product_data['stock']) if product_data else None
     
-
     @classmethod
     def update(cls, code, **kwargs):
         update_data = {key: value for key, value in kwargs.items() if key in ['name','category','price','stock'] }
         return cls.collection.update_one({'code': code}, {'$set': update_data})
 
-    @classmethod
+
     def delete(self):
         return self.collection.delete_one({'code': self.code})
 
+    #gaby
     @classmethod
     def list_all(cls):
         products = []

@@ -12,18 +12,28 @@ class User:
 
     @staticmethod
     def insert( username, email, password):
-        password=encode_hash_function(password)
-        return User.collection.insert_one({
-            'username': username,
-            'email': email,
-            'password': password
-        })
+        existing_user = User.collection.find_one({'$or': [{'username': username}, {'email': email}]})
+
+        if not existing_user:
+            password = encode_hash_function(password)      
+            User.collection.insert_one({
+                'username': username,
+                'email': email,
+                'password': password
+                        })
+            return True
+        else:
+            return False
+       
+           
+                   
     @classmethod
     def find_user(cls,  username):
         user_data =  cls.collection.find_one({'username': username})
         
         return cls(user_data['username'], user_data['email'], user_data['password']) if user_data else None
 
+    #referencia a varios parametros de un diccionario | **kwargs referencia a los parametros del diccionario
     def update(self, **kwargs):
         update_data = {key: value for key, value in kwargs.items() if hasattr(self, key)}
         return self.collection.update_one({'username': self.username}, {'$set': update_data})

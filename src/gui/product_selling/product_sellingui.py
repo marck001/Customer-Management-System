@@ -103,10 +103,7 @@ class ProductSellingUI:
             ))
         else:
             messagebox.showerror("Error", "Producto no encontrado.",self.mainwindow)
-        
-
-        
-    
+           
     def list_by_date(self):
         
         user = self.user_name
