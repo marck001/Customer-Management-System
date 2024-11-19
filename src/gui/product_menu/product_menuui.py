@@ -376,7 +376,6 @@ class product_menuUI:
             Selling.insert(user_name, product_name, code, category, price, date)
             self.product.decrease_stock(stock_to_sell)
             self.list()
-            self.txtCodigoCliente.delete(0, tk.END)
             self.txtPrecio.delete(0, tk.END)
             self.txtCodigo.delete(0,tk.END)
             self.txtProducto.delete(0, tk.END)
