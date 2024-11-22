@@ -33,7 +33,7 @@ class User:
         
         return cls(user_data['username'], user_data['email'], user_data['password']) if user_data else None
 
-    #referencia a varios parametros de un diccionario | **kwargs referencia a los parametros del diccionario
+  
     def update(self, **kwargs):
         update_data = {key: value for key, value in kwargs.items() if hasattr(self, key)}
         return self.collection.update_one({'username': self.username}, {'$set': update_data})

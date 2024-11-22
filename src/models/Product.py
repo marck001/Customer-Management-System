@@ -41,7 +41,7 @@ class Product:
     def delete(self):
         return self.collection.delete_one({'code': self.code})
 
-    #gaby
+  
     @classmethod
     def list_all(cls):
         products = []

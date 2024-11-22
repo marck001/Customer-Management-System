@@ -19,7 +19,7 @@ class Selling:
     def insert(user_name, product_name, code, category, price, date):
         collection = Selling.get_collection()
         try:
-            #convertir objecto fecha a string en ese formato
+          
             date = date.strftime("%Y-%m-%d")
             return collection.insert_one({
                 'user_name': user_name,
