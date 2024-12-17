@@ -147,7 +147,7 @@ class loginUI:
                 if True in matches:
                     matched_index = matches.index(True)
                     #aqui extraer nombre el archivo y ponerlo como username
-                    user=User.find_user(matched_index)
+                    user=User.find_user(known_usernames[matched_index])
                     if user:
                     #username = known_usernames[matched_index]
                      messagebox.showinfo("Éxito", f"Inicio de sesión exitoso: {user.username}")
