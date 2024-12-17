@@ -34,7 +34,7 @@ class MenuUI:
 
         # Create buttons for the menu
         self.btn_menu2 = self.create_button("Registrar Producto", self.on_window_products, 0.37)
-        self.btn_menu3 = self.create_button("Hacer compra", self.on_window_selling, 0.44)
+        self.btn_menu3 = self.create_button("Hacer Venta", self.on_window_selling, 0.44)
         self.btn_menu4 = self.create_button("Ver productos Comprados", self.on_window_sell_products, 0.51)
         self.btn_menu5 = self.create_button("Log out", self.on_window_logout, 0.58)
         self.btn_dispose = self.create_button("Salir", self.on_window_dispose, 0.65)

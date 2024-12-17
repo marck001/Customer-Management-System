@@ -9,6 +9,7 @@ from functions.utils import *
 import cv2
 import face_recognition
 import os
+from gui.camera.camera import FaceRecognitionApp
 
 class loginUI:
     def __init__(self, master=None):
@@ -89,10 +90,13 @@ class loginUI:
 
         # Main widget
         self.mainwindow = self.frame
+        #FaceRecognitionApp(self.mainwindow)
+        
 
     def open_register_window(self):
         self.mainwindow.destroy()
         RegisterUI()
+        
 
     # Acción para logeo tradicional
     def login_action(self):
@@ -142,12 +146,15 @@ class loginUI:
                 matches = face_recognition.compare_faces(known_encodings, face_encoding)
                 if True in matches:
                     matched_index = matches.index(True)
-                    username = known_usernames[matched_index]
-                    messagebox.showinfo("Éxito", f"Inicio de sesión exitoso: {username}")
-                    self.mainwindow.destroy()
-                    MenuUI(user_name=username)
-                    video_capture.release()
-                    return
+                    #aqui extraer nombre el archivo y ponerlo como username
+                    user=User.find_user(matched_index)
+                    if user:
+                    #username = known_usernames[matched_index]
+                     messagebox.showinfo("Éxito", f"Inicio de sesión exitoso: {user.username}")
+                     self.mainwindow.destroy()
+                     MenuUI(user_name=user.username)
+                     video_capture.release()
+                     return
 
             messagebox.showerror("Error", "No se reconoció el rostro.")
         else:

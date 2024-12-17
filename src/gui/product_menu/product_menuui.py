@@ -7,6 +7,12 @@ from tkcalendar import DateEntry
 from models.Selling import Selling
 from models.Product import Product
 from functions.utils import generate_random_code
+import cv2
+import face_recognition
+import os
+
+
+
 class product_menuUI:
     def __init__(self, user_name, master=None):
         # build ui

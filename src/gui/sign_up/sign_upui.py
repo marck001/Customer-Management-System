@@ -8,6 +8,7 @@ from gui.menu.main_menuui import MenuUI
 import cv2
 import face_recognition
 import numpy as np
+from gui.camera.camera import FaceRecognitionApp
 
 class sign_upUI:
     def __init__(self, master=None):
@@ -59,6 +60,7 @@ class sign_upUI:
         self.btn_irInicio.place(x=610, y=635, width=250)
 
         self.mainwindow = self.frame
+        FaceRecognitionApp(self.mainwindow)
 
     def capture_face(self):
        
@@ -85,9 +87,15 @@ class sign_upUI:
                 if face_encodings:
                     face_encoding = face_encodings[0]
                  
-                    cv2.imwrite("src/img/faces/captured_face.jpg", frame)
-                    print("Imagen capturada y guardada como captured_face.jpg")
-                    break
+                    username = self.entry_usuario .get().strip()
+                if username:
+                        image_path = f"src/img/faces/{username}.jpg"
+                        cv2.imwrite(image_path, frame)  # Guardar la imagen original
+                        print(f"Imagen capturada y guardada como {image_path}")
+                        break
+                else:
+                        messagebox.showerror("Error", "El nombre de usuario no puede estar vacío.")
+                        break
 
           
             if cv2.waitKey(1) & 0xFF == ord('q'):
@@ -116,7 +124,7 @@ class sign_upUI:
 
         try:
             # Guardar el usuario en la base de datos con el encoding facial
-            if User.insert(username, email, password, face_encoding=self.face_encoding):
+            if User.insert(username, email, password):
                 self.mainwindow.destroy()
                 MenuUI(user_name=username)
                 messagebox.showinfo("Éxito", "Usuario registrado correctamente. Iniciando sesión.")
@@ -132,6 +140,7 @@ class sign_upUI:
 
     def run(self):
         self.mainwindow.mainloop()
+      
 
 
 if __name__ == "__main__":
