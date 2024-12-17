@@ -6,6 +6,10 @@ from gui.menu.main_menuui import MenuUI
 from models.User import User
 from tkinter import messagebox
 from functions.utils import *
+import cv2
+import face_recognition
+import os
+
 class loginUI:
     def __init__(self, master=None):
         # build ui
@@ -61,6 +65,14 @@ class loginUI:
         self.btn_Registrarse = ttk.Button(self.frame, name="btn_registrarse", command=self.open_register_window, style="Custom.TButton")
         self.btn_Registrarse.configure(text='   Registrarse   ', width=25)
         self.btn_Registrarse.place(anchor="nw", x=630, y=600)
+        
+        # Nuevo botón para logeo facial
+        self.btn_FacialLogin = ttk.Button(
+            self.frame, name="btn_faciallogin", command=self.facial_login_action, style="Custom.TButton")
+        self.btn_FacialLogin.configure(
+            text='Logeo Facial', width=25)
+        self.btn_FacialLogin.place(anchor="nw", x=630, y=660)
+
         canvas4 = tk.Canvas(self.frame)
         canvas4.configure(background="#4ad5f7", height=1100, width=400)
         canvas4.place(anchor="nw", x=0, y=0)
@@ -78,32 +90,12 @@ class loginUI:
         # Main widget
         self.mainwindow = self.frame
 
-    def center(self, event):
-        wm_min = self.mainwindow.wm_minsize()
-        wm_max = self.mainwindow.wm_maxsize()
-        screen_w = self.mainwindow.winfo_screenwidth()
-        screen_h = self.mainwindow.winfo_screenheight()
-        """ `winfo_width` / `winfo_height` at this point return `geometry` size if set. """
-        x_min = min(screen_w, wm_max[0],
-                    max(self.main_w, wm_min[0],
-                        self.mainwindow.winfo_width(),
-                        self.mainwindow.winfo_reqwidth()))
-        y_min = min(screen_h, wm_max[1],
-                    max(self.main_h, wm_min[1],
-                        self.mainwindow.winfo_height(),
-                        self.mainwindow.winfo_reqheight()))
-        x = screen_w - x_min
-        y = screen_h - y_min
-        self.mainwindow.geometry(f"{x_min}x{y_min}+{x // 2}+{y // 2}")
-        self.mainwindow.unbind("<Map>", self.center_map)
-
     def open_register_window(self):
         self.mainwindow.destroy()
         RegisterUI()
 
-    #login action event
+    # Acción para logeo tradicional
     def login_action(self):
-
         username = self.entry_usuario.get()
         password1 = self.entry_contrasenia.get()
 
@@ -121,13 +113,47 @@ class loginUI:
         else:
             messagebox.showerror("Error", "Usuario no registrado")
 
+    # Acción para logeo facial
+    def facial_login_action(self):
+        known_encodings = []
+        known_usernames = []
 
-    def run(self, center=False):
-        if center:
-            """ If `width` and `height` are set for the main widget,
-            this is the only time TK returns them. """
-            self.main_w = self.mainwindow.winfo_reqwidth()
-            self.main_h = self.mainwindow.winfo_reqheight()
-            self.center_map = self.mainwindow.bind("<Map>", self.center)
+        faces_dir = "src/img/faces"  
+        for filename in os.listdir(faces_dir):
+            if filename.endswith(".jpg") or filename.endswith(".png"):
+                image_path = os.path.join(faces_dir, filename)
+                image = face_recognition.load_image_file(image_path)
+                encoding = face_recognition.face_encodings(image)[0]
+                known_encodings.append(encoding)
+                known_usernames.append(filename.split(".")[0])
+
+        video_capture = cv2.VideoCapture(0)
+        if not video_capture.isOpened():
+            messagebox.showerror("Error", "No se pudo abrir la cámara")
+            return
+
+        success, frame = video_capture.read()
+        if success:
+            rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            face_locations = face_recognition.face_locations(rgb_frame)
+            face_encodings = face_recognition.face_encodings(rgb_frame, face_locations)
+
+            for face_encoding in face_encodings:
+                matches = face_recognition.compare_faces(known_encodings, face_encoding)
+                if True in matches:
+                    matched_index = matches.index(True)
+                    username = known_usernames[matched_index]
+                    messagebox.showinfo("Éxito", f"Inicio de sesión exitoso: {username}")
+                    self.mainwindow.destroy()
+                    MenuUI(user_name=username)
+                    video_capture.release()
+                    return
+
+            messagebox.showerror("Error", "No se reconoció el rostro.")
+        else:
+            messagebox.showerror("Error", "No se pudo capturar la imagen.")
+
+        video_capture.release()
+
+    def run(self):
         self.mainwindow.mainloop()
-

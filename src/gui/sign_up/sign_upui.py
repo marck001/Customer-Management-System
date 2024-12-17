@@ -5,6 +5,9 @@ from tkinter import messagebox
 from db.database import Database
 from models.User import User
 from gui.menu.main_menuui import MenuUI
+import cv2
+import face_recognition
+import numpy as np
 
 class sign_upUI:
     def __init__(self, master=None):
@@ -16,104 +19,116 @@ class sign_upUI:
             takefocus=True,
             background="#f5f5f5",
             width=1100)
-        self.frame.overrideredirect("false")
         self.frame.resizable(True, False)
-        self.lbl_titulo = ttk.Label(self.frame, name="lbl_titulo")
-        self.lbl_titulo.configure(
-            anchor="e",
-            compound="center",
-            cursor="bogosity",
-            font="{times new roman} 36 {}",
-            justify="center",
-            padding=5,
-            relief="flat",
-            state="normal",
-            background="#f5f5f5",
-            text='Registro\n')
-        self.lbl_titulo.place(anchor="nw", x=650, y=60)
-        self.lbl_usuario = ttk.Label(self.frame, name="lbl_usuario",background="#f5f5f5")
-        self.lbl_usuario.configure(font="{times} 16 {}", text='Usuario', background="#f5f5f5",)
-        self.lbl_usuario.place(anchor="nw", x=480, y=190)
-        self.entry_usuario = ttk.Entry(self.frame, name="entry_usuario")
-        self.entry_usuario.configure(width=60)
-        self.entry_usuario.place(anchor="nw", height=40, x=480, y=240)
-        self.lbl_contrasenia = ttk.Label(self.frame, name="lbl_contrasenia")
-        self.lbl_contrasenia.configure(
-            font="{times} 16 {}",
-            relief="flat",
-            background="#f5f5f5",
-            text='Contraseña')
-        self.lbl_contrasenia.place(anchor="nw", x=480, y=310)
-        self.entry_contrasenia = ttk.Entry(
-            self.frame, name="entry_contrasenia")
-        self.entry_contrasenia.configure(width=60)
-        self.entry_contrasenia.place(anchor="nw", height=40, x=480, y=380)
+        
+        # Variables
+        self.face_encoding = None
+
+        # Títulos y entradas
+        self.lbl_titulo = ttk.Label(self.frame, text="Registro\n", font="{times new roman} 36 {}", background="#f5f5f5")
+        self.lbl_titulo.place(x=650, y=60)
+        self.lbl_usuario = ttk.Label(self.frame, text="Usuario", font="{times} 16 {}", background="#f5f5f5")
+        self.lbl_usuario.place(x=480, y=190)
+        self.entry_usuario = ttk.Entry(self.frame, width=60)
+        self.entry_usuario.place(x=480, y=240, height=40)
+
+        self.lbl_contrasenia = ttk.Label(self.frame, text="Contraseña", font="{times} 16 {}", background="#f5f5f5")
+        self.lbl_contrasenia.place(x=480, y=310)
+        self.entry_contrasenia = ttk.Entry(self.frame, width=60, show="*")
+        self.entry_contrasenia.place(x=480, y=380, height=40)
+
+        self.lbl_correo = ttk.Label(self.frame, text="Correo Electrónico", font="{times} 16 {}", background="#f5f5f5")
+        self.lbl_correo.place(x=480, y=450)
+        self.entry_correo = ttk.Entry(self.frame, width=60)
+        self.entry_correo.place(x=480, y=510, height=40)
+
+        # Botones
         style = ttk.Style()
         style.theme_use("clam")
         style.configure("Custom.TButton",
                         background="#00ffff", 
                         foreground="black", 
-                        font=("Roboto", 10, "bold")) 
-        style.map("Custom.TButton", background=[("active", "#a0ffff"), ("!disabled", "#00ffff")]) 
-        self.btn_Registrarse = ttk.Button(self.frame, name="btn_registrarse",command=self.register_user, style="Custom.TButton")
-        self.btn_Registrarse.configure(text='   Registrarse   ', width=25)
-        self.btn_Registrarse.place(anchor="nw", x=580, y=585)
-        canvas4 = tk.Canvas(self.frame)
-        canvas4.configure(background="#4ad5f7", height=1100, width=400)
-        canvas4.place(anchor="nw", x=0, y=0)
-        label7 = ttk.Label(self.frame)
-        self.img_usuario3 = tk.PhotoImage(file="src/img/usuario3.png")
-        label7.configure(
-            background="#4ad5f7",
-            compound="top",
-            font="{Yu Gothic UI} 14 {}",
-            image=self.img_usuario3,
-            justify="center",
-            text='©Derechos reservados ')
-        label7.place(anchor="nw", x=20, y=150)
-        self.lbl_correo = ttk.Label(self.frame, name="lbl_correo")
-        self.lbl_correo.configure(
-            font="{times} 16 {}",
-             background="#f5f5f5",
-            text='Correo Electronico')
-        self.lbl_correo.place(anchor="nw", x=480, y=450)
-        self.entry_correo = ttk.Entry(self.frame, name="entry_correo")
-        self.entry_correo.configure(width=60)
-        self.entry_correo.place(anchor="nw", height=40, x=480, y=510)
-        self.btn_irInicio = ttk.Button(self.frame, name="btn_irinicio", command=self.go_to_login_window, style="Custom.TButton")
-        self.btn_irInicio.configure(text='   Ir a Login   ', width=25)
-        self.btn_irInicio.place(anchor="nw", x=580, y=635)
+                        font=("Roboto", 10, "bold"))
+        self.btn_reconocer = ttk.Button(self.frame, text="Reconocimiento Facial", command=self.capture_face, style="Custom.TButton")
+        self.btn_reconocer.place(x=480, y=570, width=250)
 
-        # Main widget
+        self.btn_registrarse = ttk.Button(self.frame, text="Registrarse", command=self.register_user, style="Custom.TButton")
+        self.btn_registrarse.place(x=740, y=570, width=250)
+
+        self.btn_irInicio = ttk.Button(self.frame, text="Ir a Login", command=self.go_to_login_window, style="Custom.TButton")
+        self.btn_irInicio.place(x=610, y=635, width=250)
+
         self.mainwindow = self.frame
+
+    def capture_face(self):
+       
+        cap = cv2.VideoCapture(0)
+        if not cap.isOpened():
+            messagebox.showerror("Error", "No se puede abrir la cámara.")
+            return
+
+        messagebox.showinfo("Instrucción", "Mire hacia la cámara. Se capturará su rostro.")
+        face_encoding = None
+
+        while True:
+            ret, frame = cap.read()
+            if not ret:
+                break
+
         
+            rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
+          
+            face_locations = face_recognition.face_locations(rgb_frame)
+            if face_locations:
+                face_encodings = face_recognition.face_encodings(rgb_frame, face_locations)
+                if face_encodings:
+                    face_encoding = face_encodings[0]
+                 
+                    cv2.imwrite("src/img/faces/captured_face.jpg", frame)
+                    print("Imagen capturada y guardada como captured_face.jpg")
+                    break
+
+          
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
+
+        cap.release()
+
+        if face_encoding is not None:
+            self.face_encoding = face_encoding.tolist()
+            messagebox.showinfo("Éxito", "Rostro capturado correctamente.")
+        else:
+            messagebox.showerror("Error", "No se pudo capturar el rostro. Intente de nuevo.")
+
     def register_user(self):
+      
         username = self.entry_usuario.get()
         password = self.entry_contrasenia.get()
         email = self.entry_correo.get()
-        
+
         if not username or not password or not email:
             messagebox.showerror("Error", "Llene los campos de texto.")
             return
-        
-        try:           
-           if User.insert(username,email,password):         
-             self.mainwindow.destroy()         
-             MenuUI(user_name=username)
-             messagebox.showinfo("Success", "Usuario registrado correctamente. Iniciando sesion!")
-           else:
-                messagebox.showinfo("Error", "Nombre de usuario ya se encuentra registrado!")        
-           
-        except Exception as e:      
-            messagebox.showerror("Error de registro", f"Ocurrio un error: {e}")
-        
-    def go_to_login_window(self):
-            from gui.login.loginui  import loginUI          
-            self.mainwindow.destroy()   
-            loginUI()
-            
+        if self.face_encoding is None:
+            messagebox.showerror("Error", "Por favor capture su rostro primero.")
+            return
 
-            
+        try:
+            # Guardar el usuario en la base de datos con el encoding facial
+            if User.insert(username, email, password, face_encoding=self.face_encoding):
+                self.mainwindow.destroy()
+                MenuUI(user_name=username)
+                messagebox.showinfo("Éxito", "Usuario registrado correctamente. Iniciando sesión.")
+            else:
+                messagebox.showerror("Error", "Nombre de usuario ya se encuentra registrado.")
+        except Exception as e:
+            messagebox.showerror("Error de registro", f"Ocurrió un error: {e}")
+
+    def go_to_login_window(self):
+        from gui.login.loginui import loginUI
+        self.mainwindow.destroy()
+        loginUI()
 
     def run(self):
         self.mainwindow.mainloop()
